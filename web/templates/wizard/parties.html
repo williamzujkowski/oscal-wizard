@@ -1,0 +1,134 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Parties & Roles | Open OSCAL Wizard{% endblock %}
+
+{% block content %}
+  <h1 class="usa-heading">Parties & Roles</h1>
+  <p class="usa-intro">
+    Define roles, parties, and responsible party mappings.
+  </p>
+
+  {% if errors %}
+    <div class="usa-alert usa-alert--error" role="alert" tabindex="-1" id="error-summary">
+      <div class="usa-alert__body">
+        <h2 class="usa-alert__heading">Please fix the errors below</h2>
+        <ul class="usa-list">
+          {% for error in errors %}
+            <li>{{ error.field }}: {{ error.msg }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  {% endif %}
+
+  <form class="usa-form" method="post" action="/parties" novalidate>
+    <fieldset class="usa-fieldset">
+      <legend class="usa-legend">Add a role</legend>
+      <label class="usa-label" for="role-id">Role ID</label>
+      <input
+        class="usa-input"
+        id="role-id"
+        name="role_id"
+        type="text"
+        value="{{ form_data.get('role_id', '') }}"
+      >
+      <label class="usa-label" for="role-title">Role title</label>
+      <input
+        class="usa-input"
+        id="role-title"
+        name="role_title"
+        type="text"
+        value="{{ form_data.get('role_title', '') }}"
+      >
+    </fieldset>
+
+    <fieldset class="usa-fieldset margin-top-4">
+      <legend class="usa-legend">Add a party</legend>
+      <label class="usa-label" for="party-type">Party type</label>
+      <select class="usa-select" id="party-type" name="party_type">
+        <option value="person" {% if form_data.get('party_type') == 'person' %}selected{% endif %}>
+          Person
+        </option>
+        <option value="organization" {% if form_data.get('party_type') == 'organization' %}selected{% endif %}>
+          Organization
+        </option>
+      </select>
+      <label class="usa-label" for="party-name">Party name</label>
+      <input
+        class="usa-input"
+        id="party-name"
+        name="party_name"
+        type="text"
+        value="{{ form_data.get('party_name', '') }}"
+      >
+      <label class="usa-label" for="party-email">Email addresses (comma-separated)</label>
+      <input
+        class="usa-input"
+        id="party-email"
+        name="party_email"
+        type="text"
+        value="{{ form_data.get('party_email', '') }}"
+      >
+      {% if form_data.get('party_uuid') %}
+        <p class="usa-hint">Generated party UUID: {{ form_data.get('party_uuid') }}</p>
+      {% endif %}
+    </fieldset>
+
+    <fieldset class="usa-fieldset margin-top-4">
+      <legend class="usa-legend">Responsible party mapping</legend>
+      <label class="usa-label" for="responsible-role-id">Role ID</label>
+      <input
+        class="usa-input"
+        id="responsible-role-id"
+        name="responsible_role_id"
+        type="text"
+        value="{{ form_data.get('responsible_role_id', '') }}"
+      >
+      <label class="usa-label" for="responsible-party-uuid">Party UUID</label>
+      <input
+        class="usa-input"
+        id="responsible-party-uuid"
+        name="responsible_party_uuid"
+        type="text"
+        value="{{ form_data.get('responsible_party_uuid', '') }}"
+      >
+    </fieldset>
+
+    <button class="usa-button margin-top-3" type="submit">
+      Save entries
+    </button>
+  </form>
+
+  {% if roles %}
+    <div class="margin-top-4">
+      <h2 class="usa-heading--sm">Roles</h2>
+      <ul class="usa-list">
+        {% for role in roles %}
+          <li>{{ role.role_id }} — {{ role.title }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+
+  {% if parties %}
+    <div class="margin-top-4">
+      <h2 class="usa-heading--sm">Parties</h2>
+      <ul class="usa-list">
+        {% for party in parties %}
+          <li>{{ party.name }} ({{ party.party_type }}) — {{ party.party_uuid }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+
+  {% if responsible_parties %}
+    <div class="margin-top-4">
+      <h2 class="usa-heading--sm">Responsible parties</h2>
+      <ul class="usa-list">
+        {% for item in responsible_parties %}
+          <li>{{ item.role_id }} → {{ item.party_uuids | join(', ') }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+{% endblock %}
