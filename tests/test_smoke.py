@@ -19,6 +19,20 @@ def test_system_foundation_page() -> None:
     assert "System Foundation" in response.text
 
 
+def test_validate_page() -> None:
+    client = TestClient(app)
+    response = client.get("/validate")
+    assert response.status_code == 200
+    assert "Validate" in response.text
+
+
+def test_export_page() -> None:
+    client = TestClient(app)
+    response = client.get("/export")
+    assert response.status_code == 200
+    assert "Export" in response.text
+
+
 def test_workspace_export() -> None:
     client = TestClient(app)
     response = client.post(

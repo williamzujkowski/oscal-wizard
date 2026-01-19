@@ -63,6 +63,16 @@
               </a>
             </li>
             <li class="usa-nav__primary-item">
+              <a class="usa-nav__link{% if current_nav == 'validate' %} usa-current{% endif %}" href="/validate">
+                <span>Validate</span>
+              </a>
+            </li>
+            <li class="usa-nav__primary-item">
+              <a class="usa-nav__link{% if current_nav == 'export' %} usa-current{% endif %}" href="/export">
+                <span>Export</span>
+              </a>
+            </li>
+            <li class="usa-nav__primary-item">
               <a class="usa-nav__link{% if current_nav == 'diff-viewer' %} usa-current{% endif %}" href="/diff">
                 <span>Diff Viewer</span>
               </a>
