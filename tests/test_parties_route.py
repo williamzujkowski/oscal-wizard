@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from fastapi.testclient import TestClient
 
+from engine.ids import deterministic_uuid
 from web.app import app
 
 
@@ -23,7 +24,12 @@ def test_parties_post_valid() -> None:
             "party_name": "Jordan Lee",
             "party_email": "jordan@example.com",
             "responsible_role_id": "system-owner",
-            "responsible_party_uuid": "11111111-1111-1111-1111-111111111111",
+            "responsible_party_uuid": deterministic_uuid(
+                "party",
+                "person",
+                "Jordan Lee",
+                "jordan@example.com",
+            ),
         },
     )
     assert response.status_code == 200

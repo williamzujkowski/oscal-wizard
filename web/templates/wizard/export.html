@@ -36,6 +36,17 @@
     <button class="usa-button margin-top-3" type="submit">Export SSP JSON</button>
   </form>
 
+  {% if export_ready %}
+    <div class="usa-alert usa-alert--success margin-top-3" role="status">
+      <div class="usa-alert__body">
+        <p class="usa-alert__text">
+          SSP export is ready. Download the file below.
+        </p>
+      </div>
+    </div>
+    <a class="usa-button margin-top-2" href="/export/download">Download SSP JSON</a>
+  {% endif %}
+
   <div class="usa-alert usa-alert--info margin-top-3" role="status">
     <div class="usa-alert__body">
       <p class="usa-alert__text">

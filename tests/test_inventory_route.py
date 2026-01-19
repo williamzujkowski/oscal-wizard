@@ -21,6 +21,7 @@ def test_inventory_post_valid() -> None:
     response = client.post(
         "/inventory",
         data={
+            "action": "add",
             "component_type": "software",
             "title": "Test Component",
             "description": "Example description",
@@ -35,6 +36,7 @@ def test_inventory_import_invalid_path() -> None:
     response = client.post(
         "/inventory",
         data={
+            "action": "import",
             "component_type": "software",
             "title": "Test Component",
             "description": "Example description",
@@ -67,6 +69,7 @@ def test_inventory_import_components(
     response = client.post(
         "/inventory",
         data={
+            "action": "import",
             "component_type": "software",
             "title": "Test Component",
             "description": "Example description",

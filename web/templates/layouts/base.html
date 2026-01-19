@@ -4,10 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}Open OSCAL Wizard{% endblock %}</title>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/uswds@3.7.0/dist/css/uswds.min.css"
-    >
+    <link rel="stylesheet" href="/static/uswds/uswds.min.css">
     <style>
       ins {
         background-color: #d1f7c4;
@@ -102,7 +99,7 @@
         {% block content %}{% endblock %}
       </div>
     </main>
-    <script src="https://cdn.jsdelivr.net/npm/uswds@3.7.0/dist/js/uswds.min.js"></script>
+    <script src="/static/uswds/uswds.min.js"></script>
     <script>
       const errorSummary = document.getElementById("error-summary");
       if (errorSummary) {
