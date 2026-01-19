@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Open OSCAL Wizard{% endblock %}</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/uswds@3.7.0/dist/css/uswds.min.css"
+    >
+  </head>
+  <body class="usa-typography">
+    <a class="usa-skipnav" href="#main-content">Skip to main content</a>
+    <header class="usa-header usa-header--basic">
+      <div class="usa-nav-container">
+        <div class="usa-navbar">
+          <div class="usa-logo">
+            <em class="usa-logo__text">
+              <a href="/" title="Home">Open OSCAL Wizard</a>
+            </em>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main id="main-content">
+      <div class="grid-container padding-y-4">
+        {% block content %}{% endblock %}
+      </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/uswds@3.7.0/dist/js/uswds.min.js"></script>
+  </body>
+</html>
