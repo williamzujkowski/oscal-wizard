@@ -1,0 +1,37 @@
+{
+  "items": [
+    {
+      "filename": "NIST_SP-800-53_rev5_HIGH-baseline_profile.json",
+      "kind": "profile",
+      "sha256": "abb35759658a2c8ce082694a0ffa92c6c8291225bd8d4a980de8da72813ad918",
+      "source_url": "https://raw.githubusercontent.com/usnistgov/oscal-content/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_HIGH-baseline_profile.json",
+      "title": "NIST SP 800-53 Rev 5 High Baseline Profile",
+      "version": "rev5"
+    },
+    {
+      "filename": "NIST_SP-800-53_rev5_LOW-baseline_profile.json",
+      "kind": "profile",
+      "sha256": "ccdd3324371ed27a8bd268af542859199c60cabd9f590aadb2948b3478221f21",
+      "source_url": "https://raw.githubusercontent.com/usnistgov/oscal-content/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_LOW-baseline_profile.json",
+      "title": "NIST SP 800-53 Rev 5 Low Baseline Profile",
+      "version": "rev5"
+    },
+    {
+      "filename": "NIST_SP-800-53_rev5_MODERATE-baseline_profile.json",
+      "kind": "profile",
+      "sha256": "b5dd6ef0d1c359e5c9942a14bbe996894909897fec65319645f5e4fbc1582ab0",
+      "source_url": "https://raw.githubusercontent.com/usnistgov/oscal-content/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_MODERATE-baseline_profile.json",
+      "title": "NIST SP 800-53 Rev 5 Moderate Baseline Profile",
+      "version": "rev5"
+    },
+    {
+      "filename": "NIST_SP-800-53_rev5_catalog.json",
+      "kind": "catalog",
+      "sha256": "1645df6a370dcb931db2e2d5d70c2f77bc89c38499a416c23a70eb2c0e595bcc",
+      "source_url": "https://raw.githubusercontent.com/usnistgov/oscal-content/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json",
+      "title": "NIST SP 800-53 Rev 5 Catalog",
+      "version": "rev5"
+    }
+  ],
+  "schema_version": "1.0.0"
+}
