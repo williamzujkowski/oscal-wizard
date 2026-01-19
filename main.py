@@ -25,7 +25,9 @@ def run() -> None:
     command = args.command or "serve"
 
     if command == "serve":
-        uvicorn.run(app, host=args.host, port=args.port)
+        host = getattr(args, "host", "0.0.0.0")
+        port = getattr(args, "port", 8000)
+        uvicorn.run(app, host=host, port=port)
         return
 
     if command == "validate":
