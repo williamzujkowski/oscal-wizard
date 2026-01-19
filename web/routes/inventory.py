@@ -13,6 +13,7 @@ from engine.components.loader import (
     load_component_definitions,
 )
 from engine.workspace import ComponentDraft
+from web.routes.wizard_steps import build_wizard_steps
 
 router = APIRouter()
 
@@ -29,6 +30,8 @@ def inventory_form(request: Request) -> Response:
             "components": [],
             "imported_components": [],
             "current_nav": "inventory",
+            "wizard_steps": build_wizard_steps(2)[0],
+            "wizard_current": build_wizard_steps(2)[1],
             "breadcrumbs": [
                 {"label": "Home", "href": "/"},
                 {"label": "Components", "href": None},
@@ -99,6 +102,8 @@ def inventory_submit(
             else [],
             "imported_components": imported_components,
             "current_nav": "inventory",
+            "wizard_steps": build_wizard_steps(2)[0],
+            "wizard_current": build_wizard_steps(2)[1],
             "breadcrumbs": [
                 {"label": "Home", "href": "/"},
                 {"label": "Components", "href": None},

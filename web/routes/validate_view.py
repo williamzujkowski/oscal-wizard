@@ -8,6 +8,7 @@ from fastapi.responses import Response
 
 from engine.validate import validate_ssp_json, validate_workspace
 from engine.workspace import Workspace
+from web.routes.wizard_steps import build_wizard_steps
 
 router = APIRouter()
 
@@ -23,6 +24,8 @@ def validate_form(request: Request) -> Response:
             "findings": [],
             "submitted": False,
             "current_nav": "validate",
+            "wizard_steps": build_wizard_steps(6)[0],
+            "wizard_current": build_wizard_steps(6)[1],
             "breadcrumbs": [
                 {"label": "Home", "href": "/"},
                 {"label": "Validate", "href": None},
@@ -46,6 +49,8 @@ async def validate_submit(request: Request) -> Response:
                 "findings": [],
                 "submitted": True,
                 "current_nav": "validate",
+                "wizard_steps": build_wizard_steps(6)[0],
+                "wizard_current": build_wizard_steps(6)[1],
                 "breadcrumbs": [
                     {"label": "Home", "href": "/"},
                     {"label": "Validate", "href": None},
@@ -68,6 +73,8 @@ async def validate_submit(request: Request) -> Response:
                 "findings": [],
                 "submitted": True,
                 "current_nav": "validate",
+                "wizard_steps": build_wizard_steps(6)[0],
+                "wizard_current": build_wizard_steps(6)[1],
                 "breadcrumbs": [
                     {"label": "Home", "href": "/"},
                     {"label": "Validate", "href": None},
@@ -105,6 +112,8 @@ async def validate_submit(request: Request) -> Response:
             "findings": findings,
             "submitted": True,
             "current_nav": "validate",
+            "wizard_steps": build_wizard_steps(6)[0],
+            "wizard_current": build_wizard_steps(6)[1],
             "breadcrumbs": [
                 {"label": "Home", "href": "/"},
                 {"label": "Validate", "href": None},

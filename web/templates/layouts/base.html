@@ -96,6 +96,9 @@
         {% if breadcrumbs %}
           {% include "components/breadcrumbs.html" %}
         {% endif %}
+        {% if wizard_steps %}
+          {% include "components/stepper.html" %}
+        {% endif %}
         {% block content %}{% endblock %}
       </div>
     </main>

@@ -1,0 +1,29 @@
+<nav class="usa-step-indicator usa-step-indicator--center" aria-label="Wizard progress">
+  <ol class="usa-step-indicator__segments">
+    {% for step in wizard_steps %}
+      <li class="usa-step-indicator__segment
+        {% if step.status == 'current' %} usa-step-indicator__segment--current
+        {% elif step.status == 'complete' %} usa-step-indicator__segment--complete
+        {% endif %}">
+        {% if step.href and step.status != 'current' %}
+          <a class="usa-step-indicator__segment-label" href="{{ step.href }}">
+            {{ step.label }}
+          </a>
+        {% else %}
+          <span class="usa-step-indicator__segment-label">{{ step.label }}</span>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ol>
+  {% if wizard_current %}
+    <div class="usa-step-indicator__header">
+      <h2 class="usa-step-indicator__heading">
+        <span class="usa-step-indicator__heading-counter">
+          <span class="usa-step-indicator__current-step">{{ wizard_current.index }}</span>
+          <span class="usa-step-indicator__total-steps">{{ wizard_current.total }}</span>
+        </span>
+        <span class="usa-step-indicator__heading-text">{{ wizard_current.label }}</span>
+      </h2>
+    </div>
+  {% endif %}
+</nav>

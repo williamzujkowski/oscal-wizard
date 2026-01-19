@@ -9,6 +9,7 @@ from fastapi.responses import Response
 from engine.catalog.loader import ControlSummary, load_catalog_controls
 from engine.catalog.manifest import CatalogManifest, load_manifest
 from engine.catalog.paths import get_catalog_data_dir, get_manifest_path
+from web.routes.wizard_steps import build_wizard_steps
 
 router = APIRouter()
 
@@ -39,6 +40,8 @@ def control_picker(request: Request) -> Response:
             "controls": controls,
             "active_catalog": active_catalog.name if active_catalog else None,
             "current_nav": "control-picker",
+            "wizard_steps": build_wizard_steps(4)[0],
+            "wizard_current": build_wizard_steps(4)[1],
             "breadcrumbs": [
                 {"label": "Home", "href": "/"},
                 {"label": "Control Picker", "href": None},
