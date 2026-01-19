@@ -47,6 +47,14 @@ class Component(BaseModel):
     description: str = Field(..., min_length=1)
 
 
+class ComponentDraft(BaseModel):
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    component_type: str = Field(..., min_length=1)
+    title: str = Field(..., min_length=1)
+    description: str = Field(..., min_length=1)
+
+
 class SystemFoundation(BaseModel):
     model_config = ConfigDict(extra="forbid", frozen=True)
 

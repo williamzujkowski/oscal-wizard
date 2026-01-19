@@ -6,6 +6,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from engine.workspace import ComponentDraft
+
 
 @dataclass(frozen=True)
 class ComponentDefinitionFile:
@@ -30,6 +32,30 @@ def load_component_definitions(directory: Path) -> list[ComponentDefinitionFile]
             ComponentDefinitionFile(path=path, sha256=digest, payload=payload)
         )
 
+    return results
+
+
+def extract_component_drafts(
+    definition: ComponentDefinitionFile,
+) -> list[ComponentDraft]:
+    component_definition = definition.payload.get("component-definition", {})
+    components = component_definition.get("components", [])
+    results: list[ComponentDraft] = []
+    if isinstance(components, list):
+        for component in components:
+            if not isinstance(component, dict):
+                continue
+            title = component.get("title", "")
+            component_type = component.get("type", "")
+            description = component.get("description", "")
+            if title and component_type and description:
+                results.append(
+                    ComponentDraft(
+                        component_type=str(component_type),
+                        title=str(title),
+                        description=str(description),
+                    )
+                )
     return results
 
 
