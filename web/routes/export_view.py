@@ -8,6 +8,7 @@ from fastapi.responses import Response
 
 from engine.export import export_ssp_json
 from engine.workspace import Workspace
+from web.routes.wizard_steps import build_wizard_steps
 
 router = APIRouter()
 
@@ -21,6 +22,8 @@ def export_form(request: Request) -> Response:
         {
             "errors": [],
             "current_nav": "export",
+            "wizard_steps": build_wizard_steps(7)[0],
+            "wizard_current": build_wizard_steps(7)[1],
             "breadcrumbs": [
                 {"label": "Home", "href": "/"},
                 {"label": "Export", "href": None},
@@ -42,6 +45,8 @@ async def export_ssp(request: Request) -> Response:
             {
                 "errors": ["Workspace JSON file is required."],
                 "current_nav": "export",
+                "wizard_steps": build_wizard_steps(7)[0],
+                "wizard_current": build_wizard_steps(7)[1],
                 "breadcrumbs": [
                     {"label": "Home", "href": "/"},
                     {"label": "Export", "href": None},
@@ -60,6 +65,8 @@ async def export_ssp(request: Request) -> Response:
             {
                 "errors": errors,
                 "current_nav": "export",
+                "wizard_steps": build_wizard_steps(7)[0],
+                "wizard_current": build_wizard_steps(7)[1],
                 "breadcrumbs": [
                     {"label": "Home", "href": "/"},
                     {"label": "Export", "href": None},

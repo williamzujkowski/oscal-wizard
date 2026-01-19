@@ -12,6 +12,7 @@ from engine.catalog.loader import (
 )
 from engine.catalog.manifest import load_manifest
 from engine.catalog.paths import get_catalog_data_dir, get_manifest_path
+from web.routes.wizard_steps import build_wizard_steps
 
 router = APIRouter()
 
@@ -30,6 +31,8 @@ async def control_interview_form(request: Request) -> Response:
             "selected_controls": [],
             "preview": [],
             "current_nav": "control-interview",
+            "wizard_steps": build_wizard_steps(5)[0],
+            "wizard_current": build_wizard_steps(5)[1],
             "breadcrumbs": [
                 {"label": "Home", "href": "/"},
                 {"label": "Control Interview", "href": None},
@@ -88,6 +91,8 @@ async def control_interview_submit(request: Request) -> Response:
             ],
             "preview": preview,
             "current_nav": "control-interview",
+            "wizard_steps": build_wizard_steps(5)[0],
+            "wizard_current": build_wizard_steps(5)[1],
             "breadcrumbs": [
                 {"label": "Home", "href": "/"},
                 {"label": "Control Interview", "href": None},

@@ -9,6 +9,7 @@ from pydantic import ValidationError
 
 from engine.export import workspace_to_canonical_json
 from engine.workspace import SystemFoundation, Workspace
+from web.routes.wizard_steps import build_wizard_steps
 
 router = APIRouter()
 
@@ -23,6 +24,8 @@ def system_foundation_form(request: Request) -> Response:
             "errors": [],
             "form_data": {},
             "current_nav": "system-foundation",
+            "wizard_steps": build_wizard_steps(1)[0],
+            "wizard_current": build_wizard_steps(1)[1],
             "breadcrumbs": [
                 {"label": "Home", "href": "/"},
                 {"label": "System Foundation", "href": None},
@@ -68,6 +71,8 @@ def export_system_foundation(
                 "errors": errors,
                 "form_data": form_data,
                 "current_nav": "system-foundation",
+                "wizard_steps": build_wizard_steps(1)[0],
+                "wizard_current": build_wizard_steps(1)[1],
                 "breadcrumbs": [
                     {"label": "Home", "href": "/"},
                     {"label": "System Foundation", "href": None},

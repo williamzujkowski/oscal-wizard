@@ -8,6 +8,7 @@ from fastapi.responses import Response
 from pydantic import ValidationError
 
 from engine.workspace import Party, ResponsibleParty, Role
+from web.routes.wizard_steps import build_wizard_steps
 
 router = APIRouter()
 
@@ -25,6 +26,8 @@ def parties_form(request: Request) -> Response:
             "parties": [],
             "responsible_parties": [],
             "current_nav": "parties",
+            "wizard_steps": build_wizard_steps(3)[0],
+            "wizard_current": build_wizard_steps(3)[1],
             "breadcrumbs": [
                 {"label": "Home", "href": "/"},
                 {"label": "Parties & Roles", "href": None},
@@ -118,6 +121,8 @@ def parties_submit(
             "parties": parties,
             "responsible_parties": responsible_parties,
             "current_nav": "parties",
+            "wizard_steps": build_wizard_steps(3)[0],
+            "wizard_current": build_wizard_steps(3)[1],
             "breadcrumbs": [
                 {"label": "Home", "href": "/"},
                 {"label": "Parties & Roles", "href": None},
