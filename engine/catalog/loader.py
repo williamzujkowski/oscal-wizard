@@ -25,6 +25,18 @@ def load_catalog_controls(path: Path) -> list[ControlSummary]:
     return controls
 
 
+def select_controls_by_prefix(
+    controls: list[ControlSummary], prefix: str, limit: int
+) -> list[ControlSummary]:
+    normalized = prefix.lower()
+    selected = [
+        control
+        for control in controls
+        if control.control_id.lower().startswith(normalized)
+    ]
+    return selected[:limit]
+
+
 def _collect_controls(node: dict[str, object], output: list[ControlSummary]) -> None:
     controls = node.get("controls", [])
     if isinstance(controls, list):
