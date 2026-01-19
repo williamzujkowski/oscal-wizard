@@ -47,4 +47,8 @@ def test_export_route_ssp() -> None:
         },
     )
     assert response.status_code == 200
-    assert response.headers["content-type"].startswith("application/json")
+    assert "Download SSP JSON" in response.text
+
+    download = client.get("/export/download")
+    assert download.status_code == 200
+    assert download.headers["content-type"].startswith("application/json")

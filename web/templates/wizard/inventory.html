@@ -52,7 +52,7 @@
         required
       >{{ form_data.get('description', '') }}</textarea>
 
-      <button class="usa-button margin-top-2" type="submit">
+      <button class="usa-button margin-top-2" type="submit" name="action" value="add">
         Add component
       </button>
     </fieldset>
@@ -70,7 +70,13 @@
         type="text"
         value="{{ form_data.get('component_library_dir', '') }}"
       >
-      <button class="usa-button usa-button--outline margin-top-2" type="submit">
+      <button
+        class="usa-button usa-button--outline margin-top-2"
+        type="submit"
+        name="action"
+        value="import"
+        formnovalidate
+      >
         Import components
       </button>
     </fieldset>
