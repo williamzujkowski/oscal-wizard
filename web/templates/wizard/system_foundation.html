@@ -56,6 +56,14 @@
       required
     >{{ form_data.get('authorization_boundary', '') }}</textarea>
 
+    <label class="usa-label" for="system-description">System description</label>
+    <textarea
+      class="usa-textarea"
+      id="system-description"
+      name="description"
+      required
+    >{{ form_data.get('description', '') }}</textarea>
+
     <label class="usa-label" for="system-owner">System owner</label>
     <input
       class="usa-input"
