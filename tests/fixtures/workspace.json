@@ -1,0 +1,67 @@
+{
+  "version": "0.2.0",
+  "metadata": {
+    "title": "Example SSP Workspace",
+    "last_modified": "2025-01-19T12:00:00-05:00",
+    "version": "2025.01",
+    "oscal_version": "1.2.0",
+    "content_version": "1.4.0"
+  },
+  "system": {
+    "system_uuid": "22222222-2222-2222-2222-222222222222",
+    "system_name": "Example System",
+    "impact_level": "moderate",
+    "authorization_boundary": "Boundary includes the VPC and managed services.",
+    "description": "Example system for export testing.",
+    "system_owner": "Jordan Lee",
+    "authorizing_official": "Riley Chen"
+  },
+  "roles": [
+    {
+      "role_id": "system-owner",
+      "title": "System Owner"
+    },
+    {
+      "role_id": "authorizing-official",
+      "title": "Authorizing Official"
+    }
+  ],
+  "parties": [
+    {
+      "party_uuid": "33333333-3333-3333-3333-333333333333",
+      "party_type": "person",
+      "name": "Jordan Lee",
+      "email_addresses": ["jordan.lee@example.com"]
+    },
+    {
+      "party_uuid": "44444444-4444-4444-4444-444444444444",
+      "party_type": "person",
+      "name": "Riley Chen",
+      "email_addresses": ["riley.chen@example.com"]
+    }
+  ],
+  "responsible_parties": [
+    {
+      "role_id": "system-owner",
+      "party_uuids": ["33333333-3333-3333-3333-333333333333"]
+    },
+    {
+      "role_id": "authorizing-official",
+      "party_uuids": ["44444444-4444-4444-4444-444444444444"]
+    }
+  ],
+  "components": [
+    {
+      "component_uuid": "55555555-5555-5555-5555-555555555555",
+      "component_type": "software",
+      "title": "Web Application",
+      "description": "Primary web application handling user workflows."
+    },
+    {
+      "component_uuid": "66666666-6666-6666-6666-666666666666",
+      "component_type": "service",
+      "title": "Managed Database",
+      "description": "Managed relational database for system data."
+    }
+  ]
+}

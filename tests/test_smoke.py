@@ -27,6 +27,7 @@ def test_workspace_export() -> None:
             "system_name": "Example System",
             "impact_level": "moderate",
             "authorization_boundary": "Example boundary",
+            "description": "Example description",
             "system_owner": "Owner Name",
             "authorizing_official": "AO Name",
         },

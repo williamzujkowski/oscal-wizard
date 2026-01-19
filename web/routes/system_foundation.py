@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import uuid
 from typing import Any, cast
 
 from fastapi import APIRouter, Form, Request
@@ -34,6 +35,7 @@ def export_system_foundation(
     system_name: str = Form(...),
     impact_level: str = Form(...),
     authorization_boundary: str = Form(...),
+    description: str = Form(...),
     system_owner: str = Form(...),
     authorizing_official: str = Form(...),
 ) -> Response:
@@ -42,12 +44,14 @@ def export_system_foundation(
         "system_name": system_name,
         "impact_level": impact_level,
         "authorization_boundary": authorization_boundary,
+        "description": description,
         "system_owner": system_owner,
         "authorizing_official": authorizing_official,
     }
 
     try:
-        system = SystemFoundation(**form_data)
+        system_uuid = str(uuid.uuid5(uuid.NAMESPACE_URL, system_name))
+        system = SystemFoundation(system_uuid=system_uuid, **form_data)
         workspace = Workspace(system=system)
     except ValidationError as exc:
         errors = [

@@ -18,7 +18,14 @@ requires = ["setuptools>=69"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
-packages = ["engine", "web", "web.routes"]
+packages = [
+  "engine",
+  "engine.catalog",
+  "engine.components",
+  "engine.oscal",
+  "web",
+  "web.routes",
+]
 
 [project.optional-dependencies]
 dev = [
