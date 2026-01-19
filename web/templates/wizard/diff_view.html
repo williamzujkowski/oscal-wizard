@@ -23,10 +23,28 @@
 
   <form class="usa-form" method="post" action="/diff" enctype="multipart/form-data" novalidate>
     <label class="usa-label" for="before-file">Before JSON</label>
-    <input class="usa-file-input" id="before-file" name="before_file" type="file" required>
+    <div class="usa-hint" id="before-hint">Upload a JSON file.</div>
+    <input
+      class="usa-file-input"
+      id="before-file"
+      name="before_file"
+      type="file"
+      accept=".json,application/json"
+      aria-describedby="before-hint"
+      required
+    >
 
     <label class="usa-label" for="after-file">After JSON</label>
-    <input class="usa-file-input" id="after-file" name="after_file" type="file" required>
+    <div class="usa-hint" id="after-hint">Upload a JSON file.</div>
+    <input
+      class="usa-file-input"
+      id="after-file"
+      name="after_file"
+      type="file"
+      accept=".json,application/json"
+      aria-describedby="after-hint"
+      required
+    >
 
     <button class="usa-button margin-top-3" type="submit">Generate diff</button>
   </form>

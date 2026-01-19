@@ -27,7 +27,13 @@ async def control_interview_form(request: Request) -> Response:
             "controls": controls,
             "errors": [],
             "form_data": {},
+            "selected_controls": [],
             "preview": [],
+            "current_nav": "control-interview",
+            "breadcrumbs": [
+                {"label": "Home", "href": "/"},
+                {"label": "Control Interview", "href": None},
+            ],
         },
     )
     return cast(Response, response)
@@ -75,7 +81,17 @@ async def control_interview_submit(request: Request) -> Response:
             "controls": controls,
             "errors": errors,
             "form_data": form_data,
+            "selected_controls": [
+                control_id
+                for control_id, selected in selections.items()
+                if selected
+            ],
             "preview": preview,
+            "current_nav": "control-interview",
+            "breadcrumbs": [
+                {"label": "Home", "href": "/"},
+                {"label": "Control Interview", "href": None},
+            ],
         },
         status_code=422 if errors else 200,
     )

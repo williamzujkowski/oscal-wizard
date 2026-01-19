@@ -30,10 +30,37 @@
             </em>
           </div>
         </div>
+        <nav aria-label="Primary navigation" class="usa-nav">
+          <ul class="usa-nav__primary usa-accordion">
+            <li class="usa-nav__primary-item">
+              <a class="usa-nav__link{% if current_nav == 'system-foundation' %} usa-current{% endif %}" href="/system-foundation">
+                <span>System Foundation</span>
+              </a>
+            </li>
+            <li class="usa-nav__primary-item">
+              <a class="usa-nav__link{% if current_nav == 'control-picker' %} usa-current{% endif %}" href="/controls">
+                <span>Control Picker</span>
+              </a>
+            </li>
+            <li class="usa-nav__primary-item">
+              <a class="usa-nav__link{% if current_nav == 'control-interview' %} usa-current{% endif %}" href="/controls/interview">
+                <span>Control Interview</span>
+              </a>
+            </li>
+            <li class="usa-nav__primary-item">
+              <a class="usa-nav__link{% if current_nav == 'diff-viewer' %} usa-current{% endif %}" href="/diff">
+                <span>Diff Viewer</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
       </div>
     </header>
     <main id="main-content">
       <div class="grid-container padding-y-4">
+        {% if breadcrumbs %}
+          {% include "components/breadcrumbs.html" %}
+        {% endif %}
         {% block content %}{% endblock %}
       </div>
     </main>

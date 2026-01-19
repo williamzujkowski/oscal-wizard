@@ -23,6 +23,11 @@ def diff_form(request: Request) -> Response:
             "errors": [],
             "diff_text": "",
             "narrative_changes": [],
+            "current_nav": "diff-viewer",
+            "breadcrumbs": [
+                {"label": "Home", "href": "/"},
+                {"label": "Diff Viewer", "href": None},
+            ],
         },
     )
     return cast(Response, response)
@@ -42,6 +47,11 @@ async def diff_submit(request: Request) -> Response:
                 "errors": ["Both JSON files are required."],
                 "diff_text": "",
                 "narrative_changes": [],
+                "current_nav": "diff-viewer",
+                "breadcrumbs": [
+                    {"label": "Home", "href": "/"},
+                    {"label": "Diff Viewer", "href": None},
+                ],
             },
             status_code=422,
         )
@@ -59,6 +69,11 @@ async def diff_submit(request: Request) -> Response:
                 "errors": errors,
                 "diff_text": "",
                 "narrative_changes": [],
+                "current_nav": "diff-viewer",
+                "breadcrumbs": [
+                    {"label": "Home", "href": "/"},
+                    {"label": "Diff Viewer", "href": None},
+                ],
             },
             status_code=422,
         )
@@ -81,6 +96,11 @@ async def diff_submit(request: Request) -> Response:
             "errors": [],
             "diff_text": diff_text,
             "narrative_changes": narrative_changes,
+            "current_nav": "diff-viewer",
+            "breadcrumbs": [
+                {"label": "Home", "href": "/"},
+                {"label": "Diff Viewer", "href": None},
+            ],
         },
     )
     return cast(Response, response)

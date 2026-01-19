@@ -1,0 +1,15 @@
+<nav class="usa-breadcrumb" aria-label="Breadcrumbs">
+  <ol class="usa-breadcrumb__list">
+    {% for crumb in breadcrumbs %}
+      <li class="usa-breadcrumb__list-item">
+        {% if crumb.href %}
+          <a class="usa-breadcrumb__link" href="{{ crumb.href }}">
+            <span>{{ crumb.label }}</span>
+          </a>
+        {% else %}
+          <span>{{ crumb.label }}</span>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ol>
+</nav>
