@@ -42,6 +42,7 @@
               id="control-{{ control.control_id }}-selected"
               type="checkbox"
               name="control_{{ control.control_id }}_selected"
+              {% if control.control_id in selected_controls %}checked{% endif %}
             >
             <label class="usa-checkbox__label" for="control-{{ control.control_id }}-selected">
               Include this control
@@ -50,10 +51,14 @@
           <label class="usa-label" for="control-{{ control.control_id }}-narrative">
             Implementation narrative
           </label>
+          <div class="usa-hint" id="hint-{{ control.control_id }}">
+            Required if the control is selected.
+          </div>
           <textarea
             class="usa-textarea"
             id="control-{{ control.control_id }}-narrative"
             name="control_{{ control.control_id }}_narrative"
+            aria-describedby="hint-{{ control.control_id }}"
           >{{ form_data.get('control_' ~ control.control_id ~ '_narrative', '') }}</textarea>
         </fieldset>
       {% endfor %}

@@ -38,6 +38,11 @@ def control_picker(request: Request) -> Response:
             "manifest": manifest,
             "controls": controls,
             "active_catalog": active_catalog.name if active_catalog else None,
+            "current_nav": "control-picker",
+            "breadcrumbs": [
+                {"label": "Home", "href": "/"},
+                {"label": "Control Picker", "href": None},
+            ],
         },
     )
     return cast(Response, response)

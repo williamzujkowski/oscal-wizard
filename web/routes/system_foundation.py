@@ -24,7 +24,15 @@ def system_foundation_form(request: Request) -> Response:
     response = templates.TemplateResponse(
         request,
         "wizard/system_foundation.html",
-        {"errors": [], "form_data": {}},
+        {
+            "errors": [],
+            "form_data": {},
+            "current_nav": "system-foundation",
+            "breadcrumbs": [
+                {"label": "Home", "href": "/"},
+                {"label": "System Foundation", "href": None},
+            ],
+        },
     )
     return cast(Response, response)
 
@@ -61,7 +69,15 @@ def export_system_foundation(
         response = templates.TemplateResponse(
             request,
             "wizard/system_foundation.html",
-            {"errors": errors, "form_data": form_data},
+            {
+                "errors": errors,
+                "form_data": form_data,
+                "current_nav": "system-foundation",
+                "breadcrumbs": [
+                    {"label": "Home", "href": "/"},
+                    {"label": "System Foundation", "href": None},
+                ],
+            },
             status_code=422,
         )
         return cast(Response, response)

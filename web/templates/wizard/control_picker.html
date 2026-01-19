@@ -18,6 +18,9 @@
     </div>
   {% else %}
     <p class="usa-label">Active catalog: {{ active_catalog }}</p>
+    <p class="usa-hint">
+      Selection is for review only. Use Control Interview to write narratives.
+    </p>
     <form class="usa-form">
       <fieldset class="usa-fieldset">
         <legend class="usa-legend">Controls</legend>
@@ -37,5 +40,8 @@
         {% endfor %}
       </fieldset>
     </form>
+    <a class="usa-button margin-top-3" href="/controls/interview">
+      Go to Control Interview
+    </a>
   {% endif %}
 {% endblock %}
