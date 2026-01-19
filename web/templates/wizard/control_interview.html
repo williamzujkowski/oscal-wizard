@@ -1,0 +1,81 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Control Interview | Open OSCAL Wizard{% endblock %}
+
+{% block content %}
+  <h1 class="usa-heading">Control Interview</h1>
+  <p class="usa-intro">
+    Provide narratives for a limited set of Access Control (AC) controls.
+  </p>
+
+  {% if not controls %}
+    <div class="usa-alert usa-alert--warning" role="alert">
+      <div class="usa-alert__body">
+        <p class="usa-alert__text">
+          No catalog controls are available. Run <code>python scripts/fetch_nist_catalogs.py</code>.
+        </p>
+      </div>
+    </div>
+  {% else %}
+    {% if errors %}
+      <div class="usa-alert usa-alert--error" role="alert" tabindex="-1" id="error-summary">
+        <div class="usa-alert__body">
+          <h2 class="usa-alert__heading">Please fix the errors below</h2>
+          <ul class="usa-list">
+            {% for error in errors %}
+              <li>{{ error.field }}: {{ error.msg }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    {% endif %}
+
+    <form class="usa-form" method="post" action="/controls/interview" novalidate>
+      {% for control in controls %}
+        <fieldset class="usa-fieldset margin-top-3">
+          <legend class="usa-legend">
+            {{ control.control_id }}{% if control.title %} — {{ control.title }}{% endif %}
+          </legend>
+          <div class="usa-checkbox">
+            <input
+              class="usa-checkbox__input"
+              id="control-{{ control.control_id }}-selected"
+              type="checkbox"
+              name="control_{{ control.control_id }}_selected"
+            >
+            <label class="usa-checkbox__label" for="control-{{ control.control_id }}-selected">
+              Include this control
+            </label>
+          </div>
+          <label class="usa-label" for="control-{{ control.control_id }}-narrative">
+            Implementation narrative
+          </label>
+          <textarea
+            class="usa-textarea"
+            id="control-{{ control.control_id }}-narrative"
+            name="control_{{ control.control_id }}_narrative"
+          >{{ form_data.get('control_' ~ control.control_id ~ '_narrative', '') }}</textarea>
+        </fieldset>
+      {% endfor %}
+      <button class="usa-button margin-top-3" type="submit">
+        Preview narratives
+      </button>
+    </form>
+
+    {% if preview %}
+      <div class="margin-top-4">
+        <h2 class="usa-heading">Preview</h2>
+        {% for item in preview %}
+          <div class="usa-prose margin-bottom-3">
+            <h3 class="usa-heading--sm">
+              {{ item.control_id }}{% if item.title %} — {{ item.title }}{% endif %}
+            </h3>
+            <div class="usa-prose">
+              {{ item.narrative | render_markdown | safe }}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endif %}
+{% endblock %}
