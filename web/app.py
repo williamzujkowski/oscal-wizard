@@ -6,6 +6,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
+from web.routes.controls import router as controls_router
 from web.routes.system_foundation import router as system_foundation_router
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -17,3 +18,4 @@ templates = Jinja2Templates(directory=BASE_DIR / "templates")
 app.state.templates = templates
 
 app.include_router(system_foundation_router)
+app.include_router(controls_router)

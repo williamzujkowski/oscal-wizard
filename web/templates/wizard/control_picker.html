@@ -1,0 +1,41 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Control Picker | Open OSCAL Wizard{% endblock %}
+
+{% block content %}
+  <h1 class="usa-heading">Control Picker</h1>
+  <p class="usa-intro">
+    Select controls from pinned NIST OSCAL catalogs.
+  </p>
+
+  {% if not manifest %}
+    <div class="usa-alert usa-alert--warning" role="alert">
+      <div class="usa-alert__body">
+        <p class="usa-alert__text">
+          No catalogs are pinned yet. Run <code>python scripts/fetch_nist_catalogs.py</code>.
+        </p>
+      </div>
+    </div>
+  {% else %}
+    <p class="usa-label">Active catalog: {{ active_catalog }}</p>
+    <form class="usa-form">
+      <fieldset class="usa-fieldset">
+        <legend class="usa-legend">Controls</legend>
+        {% for control in controls %}
+          <div class="usa-checkbox">
+            <input
+              class="usa-checkbox__input"
+              id="control-{{ control.control_id }}"
+              type="checkbox"
+              name="controls"
+              value="{{ control.control_id }}"
+            >
+            <label class="usa-checkbox__label" for="control-{{ control.control_id }}">
+              {{ control.control_id }}{% if control.title %} — {{ control.title }}{% endif %}
+            </label>
+          </div>
+        {% endfor %}
+      </fieldset>
+    </form>
+  {% endif %}
+{% endblock %}
