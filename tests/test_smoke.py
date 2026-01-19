@@ -33,6 +33,20 @@ def test_export_page() -> None:
     assert "Export" in response.text
 
 
+def test_settings_page() -> None:
+    client = TestClient(app)
+    response = client.get("/settings")
+    assert response.status_code == 200
+    assert "Settings" in response.text
+
+
+def test_help_page() -> None:
+    client = TestClient(app)
+    response = client.get("/help")
+    assert response.status_code == 200
+    assert "Help" in response.text
+
+
 def test_workspace_export() -> None:
     client = TestClient(app)
     response = client.post(
