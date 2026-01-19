@@ -10,6 +10,7 @@ from markdown_it import MarkdownIt
 from web.routes.control_interview import router as control_interview_router
 from web.routes.controls import router as controls_router
 from web.routes.diff_view import router as diff_router
+from web.routes.home import router as home_router
 from web.routes.system_foundation import router as system_foundation_router
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -26,3 +27,4 @@ app.include_router(system_foundation_router)
 app.include_router(controls_router)
 app.include_router(control_interview_router)
 app.include_router(diff_router)
+app.include_router(home_router)

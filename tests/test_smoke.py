@@ -5,11 +5,11 @@ from fastapi.testclient import TestClient
 from web.app import app
 
 
-def test_root_redirects() -> None:
+def test_root_home_page() -> None:
     client = TestClient(app)
-    response = client.get("/", follow_redirects=False)
-    assert response.status_code in {302, 307}
-    assert response.headers["location"] == "/system-foundation"
+    response = client.get("/")
+    assert response.status_code == 200
+    assert "Open OSCAL Wizard" in response.text
 
 
 def test_system_foundation_page() -> None:
