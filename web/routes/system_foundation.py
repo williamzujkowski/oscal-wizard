@@ -4,18 +4,13 @@ import uuid
 from typing import Any, cast
 
 from fastapi import APIRouter, Form, Request
-from fastapi.responses import RedirectResponse, Response
+from fastapi.responses import Response
 from pydantic import ValidationError
 
 from engine.export import workspace_to_canonical_json
 from engine.workspace import SystemFoundation, Workspace
 
 router = APIRouter()
-
-
-@router.get("/", response_class=RedirectResponse)
-def root() -> RedirectResponse:
-    return RedirectResponse(url="/system-foundation")
 
 
 @router.get("/system-foundation", response_class=Response)

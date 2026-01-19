@@ -33,6 +33,11 @@
         <nav aria-label="Primary navigation" class="usa-nav">
           <ul class="usa-nav__primary usa-accordion">
             <li class="usa-nav__primary-item">
+              <a class="usa-nav__link{% if current_nav == 'home' %} usa-current{% endif %}" href="/">
+                <span>Home</span>
+              </a>
+            </li>
+            <li class="usa-nav__primary-item">
               <a class="usa-nav__link{% if current_nav == 'system-foundation' %} usa-current{% endif %}" href="/system-foundation">
                 <span>System Foundation</span>
               </a>
