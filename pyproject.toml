@@ -23,6 +23,7 @@ packages = [
   "engine",
   "engine.catalog",
   "engine.components",
+  "engine.diff",
   "engine.oscal",
   "web",
   "web.routes",
