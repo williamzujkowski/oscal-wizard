@@ -13,6 +13,7 @@ def home(request: Request) -> Response:
     return cast(
         Response,
         templates.TemplateResponse(
+            request,
             "pages/home.html",
             {"request": request},
         ),

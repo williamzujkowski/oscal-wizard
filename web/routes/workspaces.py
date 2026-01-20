@@ -26,6 +26,7 @@ async def workspaces_index(request: Request, user: User = Depends(require_admin)
     return cast(
         Response,
         templates.TemplateResponse(
+            request,
             "pages/workspaces.html",
             {"request": request, "user": user, "workspaces": records},
         ),
@@ -82,6 +83,7 @@ async def workspaces_detail(
     return cast(
         Response,
         templates.TemplateResponse(
+            request,
             "pages/workspace_detail.html",
             {
                 "request": request,
@@ -167,6 +169,7 @@ def workspaces_import_form(request: Request, user: User = Depends(require_admin)
     return cast(
         Response,
         templates.TemplateResponse(
+            request,
             "pages/workspaces_import.html",
             {"request": request, "user": user},
         ),
