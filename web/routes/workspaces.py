@@ -137,6 +137,15 @@ async def workspaces_import(
     except json.JSONDecodeError as exc:
         raise HTTPException(status_code=400, detail="Invalid JSON file") from exc
 
+    if not isinstance(payload, dict):
+        raise HTTPException(status_code=400, detail="Workspace payload must be a JSON object")
+
+    required_keys = {"system_name", "system_id", "created_at"}
+    missing_keys = required_keys - payload.keys()
+    if missing_keys:
+        missing = ", ".join(sorted(missing_keys))
+        raise HTTPException(status_code=400, detail=f"Missing required fields: {missing}")
+
     workspace = Workspace.from_payload(payload)
     sessionmaker = request.app.state.sessionmaker
     async for session in get_session(sessionmaker):
