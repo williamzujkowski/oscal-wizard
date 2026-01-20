@@ -1,0 +1,11 @@
+{
+  "name": "oscal-wizard",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:uswds": "node scripts/build-uswds.mjs"
+  },
+  "devDependencies": {
+    "@uswds/uswds": "^3.9.0"
+  }
+}
