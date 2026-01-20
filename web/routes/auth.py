@@ -95,4 +95,4 @@ async def logout(request: Request, csrf_token: str = Form(...)):
 
     verify_csrf(request, csrf_token)
     request.session.clear()
-    return RedirectResponse(url="/")
+    return RedirectResponse(url="/", status_code=303)
