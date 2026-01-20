@@ -93,3 +93,72 @@ def test_import_rejects_missing_fields() -> None:
     finally:
         workspaces_routes.create_workspace_record = original_create
         workspaces_routes.list_workspaces = original_list
+
+
+def test_import_rejects_blank_name() -> None:
+    app = create_app()
+    app.state.sessionmaker = DummySessionMaker()
+    app.dependency_overrides[require_admin] = lambda: DummyUser()
+
+    async def fake_list_workspaces(session):
+        return []
+
+    async def fake_create_workspace_record(session, *, name, system_id, data, created_at=None):
+        return None
+
+    original_list = workspaces_routes.list_workspaces
+    original_create = workspaces_routes.create_workspace_record
+    workspaces_routes.list_workspaces = fake_list_workspaces
+    workspaces_routes.create_workspace_record = fake_create_workspace_record
+
+    try:
+        client = TestClient(app)
+        csrf_token = _csrf_for_import(client)
+        payload = b"{\"system_name\": \" \", \"system_id\": \"abc\", \"created_at\": \"1970-01-01T00:00:00+00:00\"}"
+        response = client.post(
+            "/admin/workspaces/import",
+            data={"csrf_token": csrf_token},
+            files={"workspace_file": ("workspace.json", payload, "application/json")},
+        )
+
+        assert response.status_code == 400
+    finally:
+        workspaces_routes.list_workspaces = original_list
+        workspaces_routes.create_workspace_record = original_create
+
+
+def test_import_rejects_long_name() -> None:
+    app = create_app()
+    app.state.sessionmaker = DummySessionMaker()
+    app.dependency_overrides[require_admin] = lambda: DummyUser()
+
+    async def fake_list_workspaces(session):
+        return []
+
+    async def fake_create_workspace_record(session, *, name, system_id, data, created_at=None):
+        return None
+
+    original_list = workspaces_routes.list_workspaces
+    original_create = workspaces_routes.create_workspace_record
+    workspaces_routes.list_workspaces = fake_list_workspaces
+    workspaces_routes.create_workspace_record = fake_create_workspace_record
+
+    try:
+        client = TestClient(app)
+        csrf_token = _csrf_for_import(client)
+        long_name = "x" * 201
+        payload = (
+            f\"{{\\\"system_name\\\": \\\"{long_name}\\\", \\\"system_id\\\": \\\"abc\\\", \\\"created_at\\\": \\\"1970-01-01T00:00:00+00:00\\\"}}\".encode(
+                \"utf-8\"
+            )
+        )
+        response = client.post(
+            "/admin/workspaces/import",
+            data={"csrf_token": csrf_token},
+            files={"workspace_file": ("workspace.json", payload, "application/json")},
+        )
+
+        assert response.status_code == 400
+    finally:
+        workspaces_routes.list_workspaces = original_list
+        workspaces_routes.create_workspace_record = original_create
