@@ -15,6 +15,7 @@ class DummyUser:
     display_name: str
     provider: str
     is_admin: bool
+    created_at: datetime
     last_login_at: datetime
 
 
@@ -48,6 +49,7 @@ def test_users_page_ordering() -> None:
                 display_name="New User",
                 provider="github",
                 is_admin=False,
+                created_at=datetime(2026, 2, 1, tzinfo=timezone.utc),
                 last_login_at=datetime(2026, 2, 1, tzinfo=timezone.utc),
             ),
             DummyUser(
@@ -56,6 +58,7 @@ def test_users_page_ordering() -> None:
                 display_name="Old User",
                 provider="github",
                 is_admin=False,
+                created_at=datetime(2026, 1, 1, tzinfo=timezone.utc),
                 last_login_at=datetime(2026, 1, 1, tzinfo=timezone.utc),
             ),
         ]
