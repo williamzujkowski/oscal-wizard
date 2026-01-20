@@ -14,7 +14,7 @@
     <form class="usa-form" method="post" action="/admin/workspaces/{{ workspace.id }}/rename">
       <input type="hidden" name="csrf_token" value="{{ request.state.csrf_token }}" />
       <label class="usa-label" for="workspace-name">Workspace name</label>
-      <input class="usa-input" id="workspace-name" name="name" type="text" value="{{ workspace.name }}" />
+      <input class="usa-input" id="workspace-name" name="name" type="text" maxlength="200" value="{{ workspace.name }}" />
       <button class="usa-button" type="submit">Rename workspace</button>
     </form>
     <form method="post" action="/admin/workspaces/{{ workspace.id }}/delete">
