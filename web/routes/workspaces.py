@@ -137,7 +137,7 @@ async def workspaces_export(
 
     payload = {"workspace": record.data}
     data = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
-    filename = f"workspace-{record.id}.json"
+    filename = f"workspace-{record.system_id}.json"
     return Response(
         data,
         media_type="application/json",

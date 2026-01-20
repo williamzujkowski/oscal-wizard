@@ -10,6 +10,7 @@ from web.security import require_admin
 @dataclass
 class DummyRecord:
     id: str
+    system_id: str
     data: dict
 
 
@@ -36,7 +37,7 @@ def test_workspace_export_sets_download_header() -> None:
     app.dependency_overrides[require_admin] = lambda: DummyUser()
 
     async def fake_get_workspace(session, workspace_id: str):
-        return DummyRecord(id=workspace_id, data={"system_name": "Demo"})
+        return DummyRecord(id=workspace_id, system_id="system-1", data={"system_name": "Demo"})
 
     original_get_workspace = workspaces_routes.get_workspace
     workspaces_routes.get_workspace = fake_get_workspace
@@ -46,7 +47,7 @@ def test_workspace_export_sets_download_header() -> None:
         response = client.get("/admin/workspaces/demo/export")
 
         assert response.status_code == 200
-        expected = "attachment; filename=\"workspace-demo.json\""
+        expected = "attachment; filename=\"workspace-system-1.json\""
         assert response.headers.get("content-disposition") == expected
     finally:
         workspaces_routes.get_workspace = original_get_workspace
