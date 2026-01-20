@@ -1,8 +1,0 @@
-{
-  "css_sha256": "21515dc6d5bbf7a10999490bdd658e54d17d09a1affb5bc0a6df898175550865",
-  "css_source_url": "https://cdn.jsdelivr.net/npm/@uswds/uswds@3.7.0/dist/css/uswds.min.css",
-  "date": "2026-01-19T16:16:31.033241+00:00",
-  "js_sha256": "b7f9e206b845cd3c3943c06d4aa2266f95f7584e39d6485fa36ccf77d0d85e95",
-  "js_source_url": "https://cdn.jsdelivr.net/npm/@uswds/uswds@3.7.0/dist/js/uswds.min.js",
-  "version": "3.7.0"
-}
