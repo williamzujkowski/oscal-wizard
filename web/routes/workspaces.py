@@ -8,7 +8,7 @@ from engine.db import get_session
 from engine.ids import deterministic_id
 from engine.workspace import Workspace
 from engine.workspaces import create_workspace as create_workspace_record
-from engine.workspaces import delete_workspace, get_workspace, list_workspaces
+from engine.workspaces import delete_workspace, get_workspace, list_workspaces, rename_workspace
 from web.security import require_admin, verify_csrf
 
 router = APIRouter(prefix="/admin/workspaces")
@@ -95,6 +95,25 @@ async def workspaces_delete(
         raise HTTPException(status_code=404, detail="Workspace not found")
 
     return RedirectResponse(url="/admin/workspaces", status_code=303)
+
+
+@router.post("/{workspace_id}/rename")
+async def workspaces_rename(
+    request: Request,
+    workspace_id: str,
+    name: str = Form(...),
+    csrf_token: str = Form(...),
+    user=Depends(require_admin),
+) -> RedirectResponse:
+    verify_csrf(request, csrf_token)
+    sessionmaker = request.app.state.sessionmaker
+    async for session in get_session(sessionmaker):
+        updated = await rename_workspace(session, workspace_id, name=name)
+
+    if not updated:
+        raise HTTPException(status_code=404, detail="Workspace not found")
+
+    return RedirectResponse(url=f"/admin/workspaces/{workspace_id}", status_code=303)
 
 
 @router.get("/{workspace_id}/export")

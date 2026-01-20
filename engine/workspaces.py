@@ -29,6 +29,15 @@ async def delete_workspace(session: AsyncSession, workspace_id: str) -> bool:
     return True
 
 
+async def rename_workspace(session: AsyncSession, workspace_id: str, name: str) -> bool:
+    record = await get_workspace(session, workspace_id)
+    if record is None:
+        return False
+    record.name = name
+    await session.commit()
+    return True
+
+
 async def create_workspace(
     session: AsyncSession,
     *,
