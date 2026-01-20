@@ -1,0 +1,35 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Users - OSCAL Wizard{% endblock %}
+
+{% block content %}
+<section class="usa-section">
+  <div class="grid-container">
+    <h1 class="usa-heading-l">Users</h1>
+    {% if users %}
+      <table class="usa-table">
+        <thead>
+          <tr>
+            <th scope="col">Email</th>
+            <th scope="col">Provider</th>
+            <th scope="col">Admin</th>
+            <th scope="col">Last Login</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+            <tr>
+              <td>{{ user.email }}</td>
+              <td>{{ user.provider }}</td>
+              <td>{{ "Yes" if user.is_admin else "No" }}</td>
+              <td>{{ user.last_login_at.isoformat() }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="usa-intro">No users yet.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}
