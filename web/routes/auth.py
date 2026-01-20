@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from fastapi import APIRouter, HTTPException, Request
+from fastapi import APIRouter, Form, HTTPException, Request
 from fastapi.responses import RedirectResponse
 
 from engine.db import get_session
@@ -90,6 +90,9 @@ async def callback(request: Request, provider: str):
 
 
 @router.post("/logout")
-async def logout(request: Request):
+async def logout(request: Request, csrf_token: str = Form(...)):
+    from web.security import verify_csrf
+
+    verify_csrf(request, csrf_token)
     request.session.clear()
     return RedirectResponse(url="/")

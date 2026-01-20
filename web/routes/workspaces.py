@@ -9,7 +9,7 @@ from engine.ids import deterministic_id
 from engine.workspace import Workspace
 from engine.workspaces import create_workspace as create_workspace_record
 from engine.workspaces import delete_workspace, get_workspace, list_workspaces
-from web.security import require_admin
+from web.security import require_admin, verify_csrf
 
 router = APIRouter(prefix="/admin/workspaces")
 
@@ -31,8 +31,10 @@ async def workspaces_index(request: Request, user=Depends(require_admin)) -> HTM
 async def workspaces_create(
     request: Request,
     name: str = Form(...),
+    csrf_token: str = Form(...),
     user=Depends(require_admin),
 ) -> RedirectResponse:
+    verify_csrf(request, csrf_token)
     system_id = deterministic_id(name)
     workspace = Workspace(
         system_name=name,
@@ -81,8 +83,10 @@ async def workspaces_detail(
 async def workspaces_delete(
     request: Request,
     workspace_id: str,
+    csrf_token: str = Form(...),
     user=Depends(require_admin),
 ) -> RedirectResponse:
+    verify_csrf(request, csrf_token)
     sessionmaker = request.app.state.sessionmaker
     async for session in get_session(sessionmaker):
         deleted = await delete_workspace(session, workspace_id)
@@ -129,8 +133,10 @@ def workspaces_import_form(request: Request, user=Depends(require_admin)) -> HTM
 async def workspaces_import(
     request: Request,
     workspace_file: UploadFile = File(...),
+    csrf_token: str = Form(...),
     user=Depends(require_admin),
 ) -> RedirectResponse:
+    verify_csrf(request, csrf_token)
     raw = await workspace_file.read()
     try:
         payload = json.loads(raw)
