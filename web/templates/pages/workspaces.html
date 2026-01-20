@@ -19,6 +19,7 @@
             <th scope="col">Name</th>
             <th scope="col">System ID</th>
             <th scope="col">Created</th>
+            <th scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -27,6 +28,7 @@
               <td>{{ workspace.name }}</td>
               <td>{{ workspace.system_id }}</td>
               <td>{{ workspace.created_at.isoformat() }}</td>
+              <td><a href="/admin/workspaces/{{ workspace.id }}/export">Export</a></td>
             </tr>
           {% endfor %}
         </tbody>

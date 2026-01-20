@@ -13,6 +13,13 @@ async def list_workspaces(session: AsyncSession) -> list[WorkspaceRecord]:
     return list(result.scalars())
 
 
+async def get_workspace(session: AsyncSession, workspace_id: str) -> WorkspaceRecord | None:
+    result = await session.execute(
+        select(WorkspaceRecord).where(WorkspaceRecord.id == workspace_id)
+    )
+    return result.scalar_one_or_none()
+
+
 async def create_workspace(
     session: AsyncSession,
     *,
