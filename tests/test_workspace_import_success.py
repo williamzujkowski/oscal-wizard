@@ -20,6 +20,7 @@ class DummySessionMaker:
 
 class DummyAdmin:
     is_admin = True
+    id = "user-1"
 
 
 def test_import_accepts_valid_payload() -> None:
@@ -32,7 +33,15 @@ def test_import_accepts_valid_payload() -> None:
 
     captured = {}
 
-    async def fake_create_workspace_record(session, *, name, system_id, data, created_at=None):
+    async def fake_create_workspace_record(
+        session,
+        *,
+        name,
+        system_id,
+        data,
+        created_at=None,
+        owner_id=None,
+    ):
         captured["created_at"] = created_at
         return None
 
@@ -61,6 +70,7 @@ def test_import_accepts_valid_payload() -> None:
             "/admin/workspaces/import",
             data={"csrf_token": csrf_token},
             files={"workspace_file": ("workspace.json", payload, "application/json")},
+            follow_redirects=False,
         )
 
         assert response.status_code == 303

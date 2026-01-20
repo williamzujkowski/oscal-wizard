@@ -1,25 +1,31 @@
 from __future__ import annotations
 
 import secrets
+from typing import cast
 
 from fastapi import Depends, HTTPException, Request
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from engine.db import get_session
+from engine.models import User
 from engine.users import get_user_by_id
 
 
-def get_sessionmaker(request: Request):
-    return request.app.state.sessionmaker
+def get_sessionmaker(request: Request) -> async_sessionmaker[AsyncSession]:
+    return cast(async_sessionmaker[AsyncSession], request.app.state.sessionmaker)
 
 
 async def get_current_user(
     request: Request,
-    sessionmaker=Depends(get_sessionmaker),
-):
+    sessionmaker: async_sessionmaker[AsyncSession] = Depends(get_sessionmaker),
+) -> User | None:
     return await load_user(request, sessionmaker)
 
 
-async def load_user(request: Request, sessionmaker=None):
+async def load_user(
+    request: Request,
+    sessionmaker: async_sessionmaker[AsyncSession] | None = None,
+) -> User | None:
     if sessionmaker is None:
         sessionmaker = request.app.state.sessionmaker
     user_id = request.session.get("user_id")
@@ -33,13 +39,13 @@ async def load_user(request: Request, sessionmaker=None):
     return None
 
 
-def require_user(user=Depends(get_current_user)):
+def require_user(user: User | None = Depends(get_current_user)) -> User:
     if user is None:
         raise HTTPException(status_code=401, detail="Authentication required")
     return user
 
 
-def require_admin(user=Depends(require_user)):
+def require_admin(user: User = Depends(require_user)) -> User:
     if not user.is_admin:
         raise HTTPException(status_code=403, detail="Admin access required")
     return user
@@ -53,7 +59,7 @@ def get_csrf_token(request: Request) -> str:
     return token
 
 
-def verify_csrf(request: Request, csrf_token: str) -> None:
+def verify_csrf(request: Request, csrf_token: str | None) -> None:
     expected = request.session.get("csrf_token")
-    if not expected or not secrets.compare_digest(expected, csrf_token):
+    if not csrf_token or not expected or not secrets.compare_digest(expected, csrf_token):
         raise HTTPException(status_code=400, detail="Invalid CSRF token")

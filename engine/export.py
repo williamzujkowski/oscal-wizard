@@ -14,4 +14,4 @@ def export_workspace(workspace: Workspace) -> bytes:
         payload,
         sort_keys=True,
         separators=(",", ":"),
-    ).encode("utf-8")
+    ).encode("utf-8") + b"\n"

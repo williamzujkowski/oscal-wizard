@@ -5,8 +5,9 @@ Revises: 0002_create_workspaces
 Create Date: 2026-01-20T06:46:39-05:00
 
 """
-from alembic import op
 import sqlalchemy as sa
+
+from alembic import op
 
 revision = "0003_add_workspace_updated_at"
 down_revision = "0002_create_workspaces"

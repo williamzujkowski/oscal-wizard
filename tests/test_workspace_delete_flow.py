@@ -74,6 +74,7 @@ def test_workspace_delete_requires_csrf() -> None:
         response = client.post(
             "/admin/workspaces/workspace-1/delete",
             data={"csrf_token": csrf_token},
+            follow_redirects=False,
         )
 
         assert response.status_code == 303

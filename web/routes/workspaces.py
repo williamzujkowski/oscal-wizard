@@ -1,11 +1,13 @@
-from datetime import datetime, timezone
 import json
+from datetime import datetime, timezone
+from typing import cast
 
 from fastapi import APIRouter, Depends, File, Form, HTTPException, Request, UploadFile
 from fastapi.responses import HTMLResponse, RedirectResponse, Response
 
 from engine.db import get_session
 from engine.ids import deterministic_id
+from engine.models import User
 from engine.workspace import Workspace
 from engine.workspaces import create_workspace as create_workspace_record
 from engine.workspaces import delete_workspace, get_workspace, list_workspaces, rename_workspace
@@ -15,15 +17,18 @@ router = APIRouter(prefix="/admin/workspaces")
 
 
 @router.get("", response_class=HTMLResponse)
-async def workspaces_index(request: Request, user=Depends(require_admin)) -> HTMLResponse:
+async def workspaces_index(request: Request, user: User = Depends(require_admin)) -> Response:
     sessionmaker = request.app.state.sessionmaker
     async for session in get_session(sessionmaker):
         records = await list_workspaces(session)
 
     templates = request.app.state.templates
-    return templates.TemplateResponse(
-        "pages/workspaces.html",
-        {"request": request, "user": user, "workspaces": records},
+    return cast(
+        Response,
+        templates.TemplateResponse(
+            "pages/workspaces.html",
+            {"request": request, "user": user, "workspaces": records},
+        ),
     )
 
 
@@ -31,8 +36,8 @@ async def workspaces_index(request: Request, user=Depends(require_admin)) -> HTM
 async def workspaces_create(
     request: Request,
     name: str = Form(...),
-    csrf_token: str = Form(...),
-    user=Depends(require_admin),
+    csrf_token: str | None = Form(None),
+    user: User = Depends(require_admin),
 ) -> RedirectResponse:
     verify_csrf(request, csrf_token)
     name = " ".join(name.split())
@@ -63,8 +68,8 @@ async def workspaces_create(
 async def workspaces_detail(
     request: Request,
     workspace_id: str,
-    user=Depends(require_admin),
-) -> HTMLResponse:
+    user: User = Depends(require_admin),
+) -> Response:
     sessionmaker = request.app.state.sessionmaker
     async for session in get_session(sessionmaker):
         record = await get_workspace(session, workspace_id)
@@ -74,14 +79,17 @@ async def workspaces_detail(
 
     payload = json.dumps(record.data, sort_keys=True, indent=2)
     templates = request.app.state.templates
-    return templates.TemplateResponse(
-        "pages/workspace_detail.html",
-        {
-            "request": request,
-            "user": user,
-            "workspace": record,
-            "payload": payload,
-        },
+    return cast(
+        Response,
+        templates.TemplateResponse(
+            "pages/workspace_detail.html",
+            {
+                "request": request,
+                "user": user,
+                "workspace": record,
+                "payload": payload,
+            },
+        ),
     )
 
 
@@ -89,8 +97,8 @@ async def workspaces_detail(
 async def workspaces_delete(
     request: Request,
     workspace_id: str,
-    csrf_token: str = Form(...),
-    user=Depends(require_admin),
+    csrf_token: str | None = Form(None),
+    user: User = Depends(require_admin),
 ) -> RedirectResponse:
     verify_csrf(request, csrf_token)
     sessionmaker = request.app.state.sessionmaker
@@ -108,8 +116,8 @@ async def workspaces_rename(
     request: Request,
     workspace_id: str,
     name: str = Form(...),
-    csrf_token: str = Form(...),
-    user=Depends(require_admin),
+    csrf_token: str | None = Form(None),
+    user: User = Depends(require_admin),
 ) -> RedirectResponse:
     verify_csrf(request, csrf_token)
     name = " ".join(name.split())
@@ -131,7 +139,7 @@ async def workspaces_rename(
 async def workspaces_export(
     request: Request,
     workspace_id: str,
-    user=Depends(require_admin),
+    user: User = Depends(require_admin),
 ) -> Response:
     sessionmaker = request.app.state.sessionmaker
     async for session in get_session(sessionmaker):
@@ -149,16 +157,19 @@ async def workspaces_export(
     return Response(
         data,
         media_type="application/json",
-        headers={"Content-Disposition": f\"attachment; filename=\\\"{filename}\\\"\"},
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'},
     )
 
 
 @router.get("/import", response_class=HTMLResponse)
-def workspaces_import_form(request: Request, user=Depends(require_admin)) -> HTMLResponse:
+def workspaces_import_form(request: Request, user: User = Depends(require_admin)) -> Response:
     templates = request.app.state.templates
-    return templates.TemplateResponse(
-        "pages/workspaces_import.html",
-        {"request": request, "user": user},
+    return cast(
+        Response,
+        templates.TemplateResponse(
+            "pages/workspaces_import.html",
+            {"request": request, "user": user},
+        ),
     )
 
 
@@ -166,8 +177,8 @@ def workspaces_import_form(request: Request, user=Depends(require_admin)) -> HTM
 async def workspaces_import(
     request: Request,
     workspace_file: UploadFile = File(...),
-    csrf_token: str = Form(...),
-    user=Depends(require_admin),
+    csrf_token: str | None = Form(None),
+    user: User = Depends(require_admin),
 ) -> RedirectResponse:
     verify_csrf(request, csrf_token)
     raw = await workspace_file.read()
