@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from datetime import datetime, timezone
 from typing import Any
 
 from sqlalchemy import select
@@ -36,6 +37,7 @@ async def rename_workspace(session: AsyncSession, workspace_id: str, name: str) 
     if record is None:
         return False
     record.name = name
+    record.updated_at = datetime.now(timezone.utc)
     await session.commit()
     return True
 
@@ -47,7 +49,12 @@ async def create_workspace(
     system_id: str,
     data: dict[str, Any],
 ) -> WorkspaceRecord:
-    record = WorkspaceRecord(name=name, system_id=system_id, data=data)
+    record = WorkspaceRecord(
+        name=name,
+        system_id=system_id,
+        data=data,
+        updated_at=datetime.now(timezone.utc),
+    )
     session.add(record)
     await session.commit()
     await session.refresh(record)

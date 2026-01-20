@@ -14,6 +14,7 @@ class DummyWorkspace:
     name: str
     system_id: str
     created_at: datetime
+    updated_at: datetime
 
 
 class DummySession:
@@ -45,6 +46,7 @@ def test_workspaces_page_renders() -> None:
                 name="Example",
                 system_id="abc123",
                 created_at=datetime(2026, 1, 19, tzinfo=timezone.utc),
+                updated_at=datetime(2026, 1, 19, tzinfo=timezone.utc),
             )
         ]
 

@@ -14,6 +14,7 @@ class DummyWorkspace:
     name: str
     system_id: str
     created_at: datetime
+    updated_at: datetime
 
 
 class DummySession:
@@ -41,16 +42,18 @@ def test_workspaces_page_ordering() -> None:
     async def fake_list_workspaces(session):
         return [
             DummyWorkspace(
-                id="old",
-                name="Old",
-                system_id="old",
-                created_at=datetime(2026, 1, 1, tzinfo=timezone.utc),
-            ),
-            DummyWorkspace(
                 id="new",
                 name="New",
                 system_id="new",
                 created_at=datetime(2026, 2, 1, tzinfo=timezone.utc),
+                updated_at=datetime(2026, 2, 1, tzinfo=timezone.utc),
+            ),
+            DummyWorkspace(
+                id="old",
+                name="Old",
+                system_id="old",
+                created_at=datetime(2026, 1, 1, tzinfo=timezone.utc),
+                updated_at=datetime(2026, 1, 1, tzinfo=timezone.utc),
             ),
         ]
 
