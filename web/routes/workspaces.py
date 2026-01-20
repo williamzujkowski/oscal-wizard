@@ -35,6 +35,9 @@ async def workspaces_create(
     user=Depends(require_admin),
 ) -> RedirectResponse:
     verify_csrf(request, csrf_token)
+    name = name.strip()
+    if not name:
+        raise HTTPException(status_code=400, detail="Workspace name is required")
     system_id = deterministic_id(name)
     workspace = Workspace(
         system_name=name,
@@ -106,6 +109,9 @@ async def workspaces_rename(
     user=Depends(require_admin),
 ) -> RedirectResponse:
     verify_csrf(request, csrf_token)
+    name = name.strip()
+    if not name:
+        raise HTTPException(status_code=400, detail="Workspace name is required")
     sessionmaker = request.app.state.sessionmaker
     async for session in get_session(sessionmaker):
         updated = await rename_workspace(session, workspace_id, name=name)
