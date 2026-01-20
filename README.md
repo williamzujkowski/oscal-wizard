@@ -52,6 +52,8 @@ Set these environment variables before running the app:
 - `GOOGLE_CLIENT_SECRET`
 - `ADMIN_ALLOWLIST` (comma-separated emails)
 
+Use `.env.example` as a starting point for local configuration.
+
 ## Database migrations
 
 ```bash
