@@ -16,6 +16,7 @@ def admin_home(request: Request, user: User = Depends(require_admin)) -> Respons
     return cast(
         Response,
         templates.TemplateResponse(
+            request,
             "pages/admin.html",
             {"request": request, "user": user},
         ),

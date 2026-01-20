@@ -22,6 +22,7 @@ async def users_index(request: Request, user: User = Depends(require_admin)) -> 
     return cast(
         Response,
         templates.TemplateResponse(
+            request,
             "pages/users.html",
             {"request": request, "user": user, "users": users},
         ),
@@ -45,6 +46,7 @@ async def user_detail(
     return cast(
         Response,
         templates.TemplateResponse(
+            request,
             "pages/user_detail.html",
             {"request": request, "user": user, "record": record},
         ),
