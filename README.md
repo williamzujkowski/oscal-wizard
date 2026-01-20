@@ -33,6 +33,12 @@ uvicorn main:app --reload
 
 Open http://127.0.0.1:8000
 
+## Admin URLs
+
+- `/admin` (admin landing)
+- `/admin/workspaces` (workspace list)
+- `/admin/users` (user list)
+
 ## Notes
 
 - USWDS assets are copied into `web/static/uswds` by the Node build script.
