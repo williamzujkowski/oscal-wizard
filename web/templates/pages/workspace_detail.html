@@ -8,6 +8,9 @@
     <h1 class="usa-heading-l">{{ workspace.name }}</h1>
     <p class="usa-intro">System ID: {{ workspace.system_id }}</p>
     <p><a href="/admin/workspaces">Back to workspaces</a></p>
+    <form method="post" action="/admin/workspaces/{{ workspace.id }}/delete">
+      <button class="usa-button usa-button--secondary" type="submit">Delete workspace</button>
+    </form>
     <h2 class="usa-heading-m">Payload</h2>
     <pre class="usa-prose">{{ payload }}</pre>
   </div>
