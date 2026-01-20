@@ -35,7 +35,7 @@ async def workspaces_create(
     user=Depends(require_admin),
 ) -> RedirectResponse:
     verify_csrf(request, csrf_token)
-    name = name.strip()
+    name = " ".join(name.split())
     if not name:
         raise HTTPException(status_code=400, detail="Workspace name is required")
     system_id = deterministic_id(name)
@@ -109,7 +109,7 @@ async def workspaces_rename(
     user=Depends(require_admin),
 ) -> RedirectResponse:
     verify_csrf(request, csrf_token)
-    name = name.strip()
+    name = " ".join(name.split())
     if not name:
         raise HTTPException(status_code=400, detail="Workspace name is required")
     sessionmaker = request.app.state.sessionmaker
@@ -178,14 +178,15 @@ async def workspaces_import(
         raise HTTPException(status_code=400, detail=f"Missing required fields: {missing}")
 
     try:
-        workspace = Workspace.from_payload(payload)
+    workspace = Workspace.from_payload(payload)
+    workspace_name = " ".join(workspace.system_name.split())
     except ValueError as exc:
         raise HTTPException(status_code=400, detail="Invalid created_at format") from exc
     sessionmaker = request.app.state.sessionmaker
     async for session in get_session(sessionmaker):
         await create_workspace_record(
             session,
-            name=workspace.system_name,
+            name=workspace_name,
             system_id=workspace.system_id,
             data=workspace.to_export_payload(),
         )
