@@ -10,6 +10,7 @@ from web.security import require_admin
 
 @dataclass
 class DummyUser:
+    id: str
     email: str
     display_name: str
     provider: str
@@ -42,6 +43,7 @@ def test_users_page_ordering() -> None:
     async def fake_list_users(session):
         return [
             DummyUser(
+                id="user-new",
                 email="new@example.com",
                 display_name="New User",
                 provider="github",
@@ -49,6 +51,7 @@ def test_users_page_ordering() -> None:
                 last_login_at=datetime(2026, 2, 1, tzinfo=timezone.utc),
             ),
             DummyUser(
+                id="user-old",
                 email="old@example.com",
                 display_name="Old User",
                 provider="github",

@@ -1,0 +1,25 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}User - OSCAL Wizard{% endblock %}
+
+{% block content %}
+<section class="usa-section">
+  <div class="grid-container">
+    <h1 class="usa-heading-l">{{ record.display_name }}</h1>
+    <p class="usa-intro">{{ record.email }}</p>
+    <p><a href="/admin/users">Back to users</a></p>
+    <dl class="usa-prose">
+      <dt>Provider</dt>
+      <dd>{{ record.provider }}</dd>
+      <dt>Provider ID</dt>
+      <dd>{{ record.provider_id }}</dd>
+      <dt>Admin</dt>
+      <dd>{{ "Yes" if record.is_admin else "No" }}</dd>
+      <dt>Created</dt>
+      <dd>{{ record.created_at.isoformat() }}</dd>
+      <dt>Last login</dt>
+      <dd>{{ record.last_login_at.isoformat() }}</dd>
+    </dl>
+  </div>
+</section>
+{% endblock %}

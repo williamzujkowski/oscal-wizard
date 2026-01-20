@@ -14,7 +14,9 @@ class DummyUser:
     email: str
     display_name: str
     provider: str
+    provider_id: str
     is_admin: bool
+    created_at: datetime
     last_login_at: datetime
 
 
@@ -35,31 +37,31 @@ class DummyAdmin:
     is_admin = True
 
 
-def test_admin_users_page_renders() -> None:
+def test_admin_user_detail_renders() -> None:
     app = create_app()
     app.state.sessionmaker = DummySessionMaker()
     app.dependency_overrides[require_admin] = lambda: DummyAdmin()
 
-    async def fake_list_users(session):
-        return [
-            DummyUser(
-                id="user-1",
-                email="admin@example.com",
-                display_name="Admin User",
-                provider="github",
-                is_admin=True,
-                last_login_at=datetime(2026, 1, 19, tzinfo=timezone.utc),
-            )
-        ]
+    async def fake_get_user_by_id(session, user_id: str):
+        return DummyUser(
+            id=user_id,
+            email="admin@example.com",
+            display_name="Admin User",
+            provider="github",
+            provider_id="123",
+            is_admin=True,
+            created_at=datetime(2026, 1, 19, tzinfo=timezone.utc),
+            last_login_at=datetime(2026, 1, 20, tzinfo=timezone.utc),
+        )
 
-    original_list_users = users_routes.list_users
-    users_routes.list_users = fake_list_users
+    original_get = users_routes.get_user_by_id
+    users_routes.get_user_by_id = fake_get_user_by_id
 
     try:
         client = TestClient(app)
-        response = client.get("/admin/users")
+        response = client.get("/admin/users/user-1")
 
         assert response.status_code == 200
         assert "admin@example.com" in response.text
     finally:
-        users_routes.list_users = original_list_users
+        users_routes.get_user_by_id = original_get
