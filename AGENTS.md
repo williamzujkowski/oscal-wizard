@@ -23,7 +23,6 @@ output:
       - "Q Protocol"
       - "Discovered Issue Protocol"
     prohibited_content:
-      - "Node.js runtime assumptions"
       - "React/SPA logic"
       - "Guessing/Hallucinating Control Data"
       - "Giant, monolithic commits"
@@ -92,7 +91,7 @@ We strictly separate the **Engine** (Logic) from the **Web** (Presentation).
 | :--- | :--- | :--- | :--- |
 | **Engine** | `/engine` | Pydantic validation, Diffing, UUID generation, OSCAL Serialization. | HTTP dependencies, HTML rendering. |
 | **Web** | `/web` | FastAPI Routes, Jinja2 Templates, HTMX/Alpine state. | Complex business logic, direct DB queries. |
-| **Assets** | `/static` | Pre-compiled USWDS CSS/JS. | Node.js runtime, build pipelines. |
+| **Assets** | `/static` | Pre-compiled USWDS CSS/JS. | Runtime-only build steps. |
 
 ### 2.2 Tech Stack Enforcement
 - **Language:** Python 3.11+ (Typed, strict).
@@ -100,11 +99,12 @@ We strictly separate the **Engine** (Logic) from the **Web** (Presentation).
 - **Data:** Pydantic V2 (Strict Mode).
 - **Frontend:** USWDS 3.x (Native HTML) + Alpine.js (Light interactivity).
 - **Package Manager:** `uv` (primary) or `poetry`.
+- **Node.js:** Allowed for asset compilation and frontend tooling when needed.
 
 ### 2.3 Dependency Hygiene
 - **Never use deprecated packages.**
 - **Lockfiles are mandatory.** (`uv.lock` or `poetry.lock`).
-- **No Node.js at runtime.** (CI-only for USWDS asset compilation).
+- **Node.js is permitted** for asset compilation and optional frontend tooling. Runtime use must be explicitly documented.
 
 ---
 
