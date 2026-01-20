@@ -186,6 +186,10 @@ async def workspaces_import(
         workspace_name = " ".join(workspace.system_name.split())
     except ValueError as exc:
         raise HTTPException(status_code=400, detail="Invalid created_at format") from exc
+    if not workspace_name:
+        raise HTTPException(status_code=400, detail="Workspace name is required")
+    if len(workspace_name) > 200:
+        raise HTTPException(status_code=400, detail="Workspace name is too long")
     sessionmaker = request.app.state.sessionmaker
     async for session in get_session(sessionmaker):
         await create_workspace_record(
