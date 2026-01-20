@@ -10,5 +10,8 @@ dependencies = [
   "uvicorn[standard]>=0.30.0",
 ]
 
+[project.optional-dependencies]
+dev = ["pytest>=8.2.0"]
+
 [tool.uv]
 package = false
