@@ -152,7 +152,10 @@ async def workspaces_import(
         missing = ", ".join(sorted(missing_keys))
         raise HTTPException(status_code=400, detail=f"Missing required fields: {missing}")
 
-    workspace = Workspace.from_payload(payload)
+    try:
+        workspace = Workspace.from_payload(payload)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail="Invalid created_at format") from exc
     sessionmaker = request.app.state.sessionmaker
     async for session in get_session(sessionmaker):
         await create_workspace_record(
