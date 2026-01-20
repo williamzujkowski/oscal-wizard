@@ -22,18 +22,40 @@ class DummyUser:
     is_admin = True
 
 
+def _csrf_for_import(client: TestClient) -> str:
+    response = client.get("/admin/workspaces")
+    assert response.status_code == 200
+    marker = 'name="csrf_token" value="'
+    start = response.text.find(marker)
+    assert start != -1
+    start += len(marker)
+    end = response.text.find('"', start)
+    return response.text[start:end]
+
+
 def test_import_rejects_invalid_json() -> None:
     app = create_app()
     app.state.sessionmaker = DummySessionMaker()
     app.dependency_overrides[require_admin] = lambda: DummyUser()
 
-    client = TestClient(app)
-    response = client.post(
-        "/admin/workspaces/import",
-        files={"workspace_file": ("workspace.json", b"not-json", "application/json")},
-    )
+    async def fake_list_workspaces(session):
+        return []
 
-    assert response.status_code == 400
+    original_list = workspaces_routes.list_workspaces
+    workspaces_routes.list_workspaces = fake_list_workspaces
+
+    try:
+        client = TestClient(app)
+        csrf_token = _csrf_for_import(client)
+        response = client.post(
+            "/admin/workspaces/import",
+            data={"csrf_token": csrf_token},
+            files={"workspace_file": ("workspace.json", b"not-json", "application/json")},
+        )
+
+        assert response.status_code == 400
+    finally:
+        workspaces_routes.list_workspaces = original_list
 
 
 def test_import_rejects_missing_fields() -> None:
@@ -44,13 +66,20 @@ def test_import_rejects_missing_fields() -> None:
     async def fake_create_workspace_record(session, *, name, system_id, data, created_at=None):
         return None
 
+    async def fake_list_workspaces(session):
+        return []
+
     original_create = workspaces_routes.create_workspace_record
+    original_list = workspaces_routes.list_workspaces
     workspaces_routes.create_workspace_record = fake_create_workspace_record
+    workspaces_routes.list_workspaces = fake_list_workspaces
 
     try:
         client = TestClient(app)
+        csrf_token = _csrf_for_import(client)
         response = client.post(
             "/admin/workspaces/import",
+            data={"csrf_token": csrf_token},
             files={
                 "workspace_file": (
                     "workspace.json",
@@ -63,3 +92,4 @@ def test_import_rejects_missing_fields() -> None:
         assert response.status_code == 400
     finally:
         workspaces_routes.create_workspace_record = original_create
+        workspaces_routes.list_workspaces = original_list
