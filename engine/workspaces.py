@@ -37,6 +37,8 @@ async def rename_workspace(session: AsyncSession, workspace_id: str, name: str) 
     if record is None:
         return False
     record.name = name
+    if isinstance(record.data, dict):
+        record.data = {**record.data, "system_name": name}
     record.updated_at = datetime.now(timezone.utc)
     await session.commit()
     return True
