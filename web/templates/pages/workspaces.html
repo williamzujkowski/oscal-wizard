@@ -28,7 +28,11 @@
               <td>{{ workspace.name }}</td>
               <td>{{ workspace.system_id }}</td>
               <td>{{ workspace.created_at.isoformat() }}</td>
-              <td><a href="/admin/workspaces/{{ workspace.id }}/export">Export</a></td>
+              <td>
+                <a href="/admin/workspaces/{{ workspace.id }}">View</a>
+                |
+                <a href="/admin/workspaces/{{ workspace.id }}/export">Export</a>
+              </td>
             </tr>
           {% endfor %}
         </tbody>
