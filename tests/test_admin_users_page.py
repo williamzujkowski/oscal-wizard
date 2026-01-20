@@ -15,6 +15,7 @@ class DummyUser:
     display_name: str
     provider: str
     is_admin: bool
+    created_at: datetime
     last_login_at: datetime
 
 
@@ -48,6 +49,7 @@ def test_admin_users_page_renders() -> None:
                 display_name="Admin User",
                 provider="github",
                 is_admin=True,
+                created_at=datetime(2026, 1, 1, tzinfo=timezone.utc),
                 last_login_at=datetime(2026, 1, 19, tzinfo=timezone.utc),
             )
         ]
