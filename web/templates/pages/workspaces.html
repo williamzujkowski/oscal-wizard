@@ -6,6 +6,11 @@
 <section class="usa-section">
   <div class="grid-container">
     <h1 class="usa-heading-l">Workspaces</h1>
+    <form class="usa-form usa-form--large" method="post" action="/admin/workspaces">
+      <label class="usa-label" for="workspace-name">Workspace name</label>
+      <input class="usa-input" id="workspace-name" name="name" type="text" required />
+      <button class="usa-button" type="submit">Create workspace</button>
+    </form>
     {% if workspaces %}
       <table class="usa-table">
         <thead>
