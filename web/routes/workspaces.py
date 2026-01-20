@@ -2,13 +2,13 @@ from datetime import datetime, timezone
 import json
 
 from fastapi import APIRouter, Depends, File, Form, HTTPException, Request, UploadFile
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.responses import HTMLResponse, RedirectResponse, Response
 
 from engine.db import get_session
 from engine.ids import deterministic_id
 from engine.workspace import Workspace
 from engine.workspaces import create_workspace as create_workspace_record
-from engine.workspaces import list_workspaces
+from engine.workspaces import get_workspace, list_workspaces
 from web.security import require_admin
 
 router = APIRouter(prefix="/admin/workspaces")
@@ -49,6 +49,24 @@ async def workspaces_create(
         )
 
     return RedirectResponse(url="/admin/workspaces", status_code=303)
+
+
+@router.get("/{workspace_id}/export")
+async def workspaces_export(
+    request: Request,
+    workspace_id: str,
+    user=Depends(require_admin),
+) -> Response:
+    sessionmaker = request.app.state.sessionmaker
+    async for session in get_session(sessionmaker):
+        record = await get_workspace(session, workspace_id)
+
+    if record is None:
+        raise HTTPException(status_code=404, detail="Workspace not found")
+
+    payload = {"workspace": record.data}
+    data = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    return Response(data, media_type="application/json")
 
 
 @router.get("/import", response_class=HTMLResponse)
