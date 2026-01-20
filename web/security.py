@@ -14,6 +14,12 @@ async def get_current_user(
     request: Request,
     sessionmaker=Depends(get_sessionmaker),
 ):
+    return await load_user(request, sessionmaker)
+
+
+async def load_user(request: Request, sessionmaker=None):
+    if sessionmaker is None:
+        sessionmaker = request.app.state.sessionmaker
     user_id = request.session.get("user_id")
     if not user_id:
         return None

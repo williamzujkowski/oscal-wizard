@@ -9,8 +9,10 @@ from engine.db import create_engine, create_sessionmaker
 from web.auth import configure_oauth
 from web.routes.home import router as home_router
 from web.routes.export import router as export_router
+from web.routes.admin import router as admin_router
 from web.routes.auth import router as auth_router
 from web.settings import get_settings
+from web.security import load_user
 
 BASE_DIR = Path(__file__).resolve().parent
 TEMPLATES_DIR = BASE_DIR / "templates"
@@ -37,9 +39,15 @@ def create_app() -> FastAPI:
         https_only=settings.session_https_only,
     )
 
+    @app.middleware("http")
+    async def attach_user(request, call_next):
+        request.state.user = await load_user(request)
+        return await call_next(request)
+
     app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
     app.include_router(home_router)
     app.include_router(export_router)
     app.include_router(auth_router)
+    app.include_router(admin_router)
 
     return app

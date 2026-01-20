@@ -15,6 +15,26 @@
             <em class="usa-logo__text">OSCAL Wizard</em>
           </div>
         </div>
+        <div class="usa-nav">
+          <div class="usa-nav__secondary usa-nav__secondary-links">
+            {% if request.state.user %}
+              <span class="usa-nav__secondary-item">
+                Signed in as {{ request.state.user.email }}
+              </span>
+              {% if request.state.user.is_admin %}
+                <a class="usa-nav__secondary-item" href="/admin">Admin</a>
+              {% endif %}
+              <form class="usa-nav__secondary-item" method="post" action="/auth/logout">
+                <button class="usa-button usa-button--unstyled" type="submit">
+                  Sign out
+                </button>
+              </form>
+            {% else %}
+              <a class="usa-button" href="/auth/login/github">Sign in with GitHub</a>
+              <a class="usa-button usa-button--outline" href="/auth/login/google">Sign in with Google</a>
+            {% endif %}
+          </div>
+        </div>
       </div>
     </header>
     <main id="main-content">
