@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: oscal
+      POSTGRES_PASSWORD: oscal
+      POSTGRES_DB: oscal_wizard
+    ports:
+      - "5432:5432"
+    volumes:
+      - oscal_wizard_db:/var/lib/postgresql/data
+
+volumes:
+  oscal_wizard_db:
