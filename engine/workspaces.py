@@ -50,11 +50,15 @@ async def create_workspace(
     name: str,
     system_id: str,
     data: dict[str, Any],
+    created_at: datetime | None = None,
 ) -> WorkspaceRecord:
+    if created_at is None:
+        created_at = datetime.now(timezone.utc)
     record = WorkspaceRecord(
         name=name,
         system_id=system_id,
         data=data,
+        created_at=created_at,
         updated_at=datetime.now(timezone.utc),
     )
     session.add(record)

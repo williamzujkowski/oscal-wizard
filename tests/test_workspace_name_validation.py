@@ -53,7 +53,7 @@ def test_create_rejects_blank_name() -> None:
     async def fake_list_workspaces(session):
         return []
 
-    async def fake_create_workspace_record(session, *, name, system_id, data):
+    async def fake_create_workspace_record(session, *, name, system_id, data, created_at=None):
         return None
 
     original_list = workspaces_routes.list_workspaces

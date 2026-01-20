@@ -189,6 +189,7 @@ async def workspaces_import(
             name=workspace_name,
             system_id=workspace.system_id,
             data=workspace.to_export_payload(),
+            created_at=workspace.created_at,
         )
 
     return RedirectResponse(url="/admin/workspaces", status_code=303)

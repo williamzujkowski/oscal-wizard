@@ -30,7 +30,7 @@ def test_import_rejects_invalid_created_at() -> None:
     async def fake_list_workspaces(session):
         return []
 
-    async def fake_create_workspace_record(session, *, name, system_id, data):
+    async def fake_create_workspace_record(session, *, name, system_id, data, created_at=None):
         return None
 
     original_create = workspaces_routes.create_workspace_record
