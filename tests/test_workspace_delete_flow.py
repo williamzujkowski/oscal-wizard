@@ -15,6 +15,7 @@ class DummyWorkspace:
     system_id: str
     data: dict
     created_at: datetime
+    updated_at: datetime
 
 
 class DummySession:
@@ -46,6 +47,7 @@ def test_workspace_delete_requires_csrf() -> None:
             system_id="abc",
             data={},
             created_at=datetime(2026, 1, 19, tzinfo=timezone.utc),
+            updated_at=datetime(2026, 1, 19, tzinfo=timezone.utc),
         )
 
     async def fake_delete_workspace(session, workspace_id: str):

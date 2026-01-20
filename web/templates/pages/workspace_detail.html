@@ -7,6 +7,8 @@
   <div class="grid-container">
     <h1 class="usa-heading-l">{{ workspace.name }}</h1>
     <p class="usa-intro">System ID: {{ workspace.system_id }}</p>
+    <p>Created: {{ workspace.created_at.isoformat() }}</p>
+    <p>Updated: {{ workspace.updated_at.isoformat() }}</p>
     <p><a href="/admin/workspaces">Back to workspaces</a></p>
     <p><a href="/admin/workspaces/{{ workspace.id }}/export">Export workspace</a></p>
     <form class="usa-form" method="post" action="/admin/workspaces/{{ workspace.id }}/rename">

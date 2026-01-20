@@ -15,6 +15,7 @@ class DummyWorkspace:
     system_id: str
     data: dict
     created_at: datetime
+    updated_at: datetime
 
 
 class DummySession:
@@ -46,6 +47,7 @@ def test_workspace_detail_page_renders() -> None:
             system_id="abc123",
             data={"system_name": "Example", "system_id": "abc123"},
             created_at=datetime(2026, 1, 19, tzinfo=timezone.utc),
+            updated_at=datetime(2026, 1, 19, tzinfo=timezone.utc),
         )
 
     original_get = workspaces_routes.get_workspace
