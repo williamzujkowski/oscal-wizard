@@ -1,0 +1,15 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Workspace - OSCAL Wizard{% endblock %}
+
+{% block content %}
+<section class="usa-section">
+  <div class="grid-container">
+    <h1 class="usa-heading-l">{{ workspace.name }}</h1>
+    <p class="usa-intro">System ID: {{ workspace.system_id }}</p>
+    <p><a href="/admin/workspaces">Back to workspaces</a></p>
+    <h2 class="usa-heading-m">Payload</h2>
+    <pre class="usa-prose">{{ payload }}</pre>
+  </div>
+</section>
+{% endblock %}

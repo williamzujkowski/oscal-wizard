@@ -51,6 +51,32 @@ async def workspaces_create(
     return RedirectResponse(url="/admin/workspaces", status_code=303)
 
 
+@router.get("/{workspace_id}", response_class=HTMLResponse)
+async def workspaces_detail(
+    request: Request,
+    workspace_id: str,
+    user=Depends(require_admin),
+) -> HTMLResponse:
+    sessionmaker = request.app.state.sessionmaker
+    async for session in get_session(sessionmaker):
+        record = await get_workspace(session, workspace_id)
+
+    if record is None:
+        raise HTTPException(status_code=404, detail="Workspace not found")
+
+    payload = json.dumps(record.data, sort_keys=True, indent=2)
+    templates = request.app.state.templates
+    return templates.TemplateResponse(
+        "pages/workspace_detail.html",
+        {
+            "request": request,
+            "user": user,
+            "workspace": record,
+            "payload": payload,
+        },
+    )
+
+
 @router.get("/{workspace_id}/export")
 async def workspaces_export(
     request: Request,
