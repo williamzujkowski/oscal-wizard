@@ -20,6 +20,15 @@ async def get_workspace(session: AsyncSession, workspace_id: str) -> WorkspaceRe
     return result.scalar_one_or_none()
 
 
+async def delete_workspace(session: AsyncSession, workspace_id: str) -> bool:
+    record = await get_workspace(session, workspace_id)
+    if record is None:
+        return False
+    await session.delete(record)
+    await session.commit()
+    return True
+
+
 async def create_workspace(
     session: AsyncSession,
     *,

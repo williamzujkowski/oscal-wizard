@@ -8,7 +8,7 @@ from engine.db import get_session
 from engine.ids import deterministic_id
 from engine.workspace import Workspace
 from engine.workspaces import create_workspace as create_workspace_record
-from engine.workspaces import get_workspace, list_workspaces
+from engine.workspaces import delete_workspace, get_workspace, list_workspaces
 from web.security import require_admin
 
 router = APIRouter(prefix="/admin/workspaces")
@@ -75,6 +75,22 @@ async def workspaces_detail(
             "payload": payload,
         },
     )
+
+
+@router.post("/{workspace_id}/delete")
+async def workspaces_delete(
+    request: Request,
+    workspace_id: str,
+    user=Depends(require_admin),
+) -> RedirectResponse:
+    sessionmaker = request.app.state.sessionmaker
+    async for session in get_session(sessionmaker):
+        deleted = await delete_workspace(session, workspace_id)
+
+    if not deleted:
+        raise HTTPException(status_code=404, detail="Workspace not found")
+
+    return RedirectResponse(url="/admin/workspaces", status_code=303)
 
 
 @router.get("/{workspace_id}/export")
