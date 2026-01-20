@@ -9,6 +9,12 @@
     <p class="usa-intro">System ID: {{ workspace.system_id }}</p>
     <p><a href="/admin/workspaces">Back to workspaces</a></p>
     <p><a href="/admin/workspaces/{{ workspace.id }}/export">Export workspace</a></p>
+    <form class="usa-form" method="post" action="/admin/workspaces/{{ workspace.id }}/rename">
+      <input type="hidden" name="csrf_token" value="{{ request.state.csrf_token }}" />
+      <label class="usa-label" for="workspace-name">Workspace name</label>
+      <input class="usa-input" id="workspace-name" name="name" type="text" value="{{ workspace.name }}" />
+      <button class="usa-button" type="submit">Rename workspace</button>
+    </form>
     <form method="post" action="/admin/workspaces/{{ workspace.id }}/delete">
       <input type="hidden" name="csrf_token" value="{{ request.state.csrf_token }}" />
       <button class="usa-button usa-button--secondary" type="submit">Delete workspace</button>
