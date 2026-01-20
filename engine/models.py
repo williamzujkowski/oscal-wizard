@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
+from typing import Any
 from uuid import uuid4
 
 from sqlalchemy import JSON, Boolean, DateTime, String
@@ -37,7 +38,7 @@ class WorkspaceRecord(Base):
     name: Mapped[str] = mapped_column(String(200))
     system_id: Mapped[str] = mapped_column(String(64))
     owner_id: Mapped[str | None] = mapped_column(String(36), nullable=True)
-    data: Mapped[dict] = mapped_column(JSON)
+    data: Mapped[dict[str, Any]] = mapped_column(JSON)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         default=lambda: datetime.now(timezone.utc),

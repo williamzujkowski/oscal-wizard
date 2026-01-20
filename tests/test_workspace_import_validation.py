@@ -63,7 +63,15 @@ def test_import_rejects_missing_fields() -> None:
     app.state.sessionmaker = DummySessionMaker()
     app.dependency_overrides[require_admin] = lambda: DummyUser()
 
-    async def fake_create_workspace_record(session, *, name, system_id, data, created_at=None):
+    async def fake_create_workspace_record(
+        session,
+        *,
+        name,
+        system_id,
+        data,
+        created_at=None,
+        owner_id=None,
+    ):
         return None
 
     async def fake_list_workspaces(session):
@@ -103,7 +111,15 @@ def test_import_rejects_blank_name() -> None:
     async def fake_list_workspaces(session):
         return []
 
-    async def fake_create_workspace_record(session, *, name, system_id, data, created_at=None):
+    async def fake_create_workspace_record(
+        session,
+        *,
+        name,
+        system_id,
+        data,
+        created_at=None,
+        owner_id=None,
+    ):
         return None
 
     original_list = workspaces_routes.list_workspaces
@@ -114,7 +130,10 @@ def test_import_rejects_blank_name() -> None:
     try:
         client = TestClient(app)
         csrf_token = _csrf_for_import(client)
-        payload = b"{\"system_name\": \" \", \"system_id\": \"abc\", \"created_at\": \"1970-01-01T00:00:00+00:00\"}"
+        payload = (
+            b"{\"system_name\": \" \", \"system_id\": \"abc\", "
+            b"\"created_at\": \"1970-01-01T00:00:00+00:00\"}"
+        )
         response = client.post(
             "/admin/workspaces/import",
             data={"csrf_token": csrf_token},
@@ -135,7 +154,15 @@ def test_import_rejects_long_name() -> None:
     async def fake_list_workspaces(session):
         return []
 
-    async def fake_create_workspace_record(session, *, name, system_id, data, created_at=None):
+    async def fake_create_workspace_record(
+        session,
+        *,
+        name,
+        system_id,
+        data,
+        created_at=None,
+        owner_id=None,
+    ):
         return None
 
     original_list = workspaces_routes.list_workspaces
@@ -148,10 +175,9 @@ def test_import_rejects_long_name() -> None:
         csrf_token = _csrf_for_import(client)
         long_name = "x" * 201
         payload = (
-            f\"{{\\\"system_name\\\": \\\"{long_name}\\\", \\\"system_id\\\": \\\"abc\\\", \\\"created_at\\\": \\\"1970-01-01T00:00:00+00:00\\\"}}\".encode(
-                \"utf-8\"
-            )
-        )
+            f'{{"system_name": "{long_name}", "system_id": "abc", '
+            f'"created_at": "1970-01-01T00:00:00+00:00"}}'
+        ).encode("utf-8")
         response = client.post(
             "/admin/workspaces/import",
             data={"csrf_token": csrf_token},

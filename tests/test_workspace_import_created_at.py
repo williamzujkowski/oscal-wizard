@@ -30,7 +30,15 @@ def test_import_rejects_invalid_created_at() -> None:
     async def fake_list_workspaces(session):
         return []
 
-    async def fake_create_workspace_record(session, *, name, system_id, data, created_at=None):
+    async def fake_create_workspace_record(
+        session,
+        *,
+        name,
+        system_id,
+        data,
+        created_at=None,
+        owner_id=None,
+    ):
         return None
 
     original_create = workspaces_routes.create_workspace_record
@@ -55,7 +63,10 @@ def test_import_rejects_invalid_created_at() -> None:
             files={
                 "workspace_file": (
                     "workspace.json",
-                    b"{\"system_name\": \"Demo\", \"system_id\": \"abc\", \"created_at\": \"nope\"}",
+                    (
+                        b"{\"system_name\": \"Demo\", \"system_id\": \"abc\", "
+                        b"\"created_at\": \"nope\"}"
+                    ),
                     "application/json",
                 )
             },

@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, cast
 
 from fastapi import APIRouter, Form, HTTPException, Request
-from fastapi.responses import RedirectResponse
+from fastapi.responses import RedirectResponse, Response
 
 from engine.db import get_session
 from engine.users import has_admin, upsert_user
@@ -12,7 +12,7 @@ from web.settings import get_settings
 router = APIRouter(prefix="/auth")
 
 
-async def _get_oauth_client(request: Request, provider: str):
+async def _get_oauth_client(request: Request, provider: str) -> Any:
     oauth = request.app.state.oauth
     client = oauth.create_client(provider)
     if client is None:
@@ -21,14 +21,14 @@ async def _get_oauth_client(request: Request, provider: str):
 
 
 @router.get("/login/{provider}")
-async def login(request: Request, provider: str):
+async def login(request: Request, provider: str) -> Response:
     client = await _get_oauth_client(request, provider)
     redirect_uri = request.url_for("auth_callback", provider=provider)
-    return await client.authorize_redirect(request, redirect_uri)
+    return cast(Response, await client.authorize_redirect(request, redirect_uri))
 
 
 @router.get("/callback/{provider}", name="auth_callback")
-async def callback(request: Request, provider: str):
+async def callback(request: Request, provider: str) -> RedirectResponse:
     client = await _get_oauth_client(request, provider)
     token = await client.authorize_access_token(request)
 
@@ -90,7 +90,7 @@ async def callback(request: Request, provider: str):
 
 
 @router.post("/logout")
-async def logout(request: Request, csrf_token: str = Form(...)):
+async def logout(request: Request, csrf_token: str | None = Form(None)) -> RedirectResponse:
     from web.security import verify_csrf
 
     verify_csrf(request, csrf_token)

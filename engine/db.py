@@ -2,7 +2,12 @@ from __future__ import annotations
 
 from collections.abc import AsyncGenerator
 
-from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker, create_async_engine
+from sqlalchemy.ext.asyncio import (
+    AsyncEngine,
+    AsyncSession,
+    async_sessionmaker,
+    create_async_engine,
+)
 
 from web.settings import Settings
 
@@ -15,6 +20,8 @@ def create_sessionmaker(engine: AsyncEngine) -> async_sessionmaker[AsyncSession]
     return async_sessionmaker(engine, expire_on_commit=False)
 
 
-async def get_session(sessionmaker: async_sessionmaker[AsyncSession]) -> AsyncGenerator[AsyncSession, None]:
+async def get_session(
+    sessionmaker: async_sessionmaker[AsyncSession],
+) -> AsyncGenerator[AsyncSession, None]:
     async with sessionmaker() as session:
         yield session

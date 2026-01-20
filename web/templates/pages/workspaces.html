@@ -33,7 +33,7 @@
               <td>{{ workspace.system_id }}</td>
               <td>{{ workspace.owner_id or "Unassigned" }}</td>
               <td>{{ workspace.created_at.isoformat() }}</td>
-              <td>{{ workspace.updated_at.isoformat() }}</td>
+              <td>{{ workspace.updated_at.isoformat() if workspace.updated_at else "Never" }}</td>
               <td>
                 <a href="/admin/workspaces/{{ workspace.id }}">View</a>
                 |

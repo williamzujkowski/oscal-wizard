@@ -1,21 +1,23 @@
 from pathlib import Path
+from typing import Awaitable, Callable
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.middleware.sessions import SessionMiddleware
+from starlette.responses import Response
 
 from engine.db import create_engine, create_sessionmaker
 from web.auth import configure_oauth
-from web.routes.home import router as home_router
-from web.routes.export import router as export_router
 from web.routes.admin import router as admin_router
 from web.routes.auth import router as auth_router
+from web.routes.export import router as export_router
 from web.routes.health import router as health_router
+from web.routes.home import router as home_router
 from web.routes.users import router as users_router
 from web.routes.workspaces import router as workspaces_router
-from web.settings import get_settings
 from web.security import get_csrf_token, load_user
+from web.settings import get_settings
 
 BASE_DIR = Path(__file__).resolve().parent
 TEMPLATES_DIR = BASE_DIR / "templates"
@@ -35,6 +37,15 @@ def create_app() -> FastAPI:
     app.state.sessionmaker = create_sessionmaker(app.state.engine)
     app.state.oauth = configure_oauth(settings)
 
+    @app.middleware("http")
+    async def attach_user(
+        request: Request,
+        call_next: Callable[[Request], Awaitable[Response]],
+    ) -> Response:
+        request.state.user = await load_user(request)
+        request.state.csrf_token = get_csrf_token(request)
+        return await call_next(request)
+
     app.add_middleware(
         SessionMiddleware,
         secret_key=settings.secret_key,
@@ -42,12 +53,6 @@ def create_app() -> FastAPI:
         same_site="lax",
         https_only=settings.session_https_only,
     )
-
-    @app.middleware("http")
-    async def attach_user(request, call_next):
-        request.state.user = await load_user(request)
-        request.state.csrf_token = get_csrf_token(request)
-        return await call_next(request)
 
     app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
     app.include_router(home_router)

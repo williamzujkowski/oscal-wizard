@@ -10,6 +10,8 @@ dependencies = [
   "fastapi>=0.115.0",
   "httpx>=0.28.1",
   "jinja2>=3.1.4",
+  "itsdangerous>=2.2.0",
+  "python-multipart>=0.0.9",
   "pydantic-settings>=2.4.0",
   "sqlalchemy>=2.0.30",
   "asyncpg>=0.29.0",
@@ -38,6 +40,11 @@ warn_unused_ignores = true
 warn_redundant_casts = true
 warn_unused_configs = true
 files = ["engine", "web", "main.py"]
+exclude = "^tests/"
+
+[[tool.mypy.overrides]]
+module = ["authlib.*"]
+ignore_missing_imports = true
 
 [tool.uv]
 package = false

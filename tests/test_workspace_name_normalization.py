@@ -20,6 +20,7 @@ class DummySessionMaker:
 
 class DummyAdmin:
     is_admin = True
+    id = "user-1"
 
 
 def test_create_normalizes_whitespace() -> None:
@@ -32,7 +33,15 @@ def test_create_normalizes_whitespace() -> None:
 
     captured = {}
 
-    async def fake_create_workspace_record(session, *, name, system_id, data, created_at=None):
+    async def fake_create_workspace_record(
+        session,
+        *,
+        name,
+        system_id,
+        data,
+        created_at=None,
+        owner_id=None,
+    ):
         captured["name"] = name
         return None
 
@@ -55,6 +64,7 @@ def test_create_normalizes_whitespace() -> None:
         response = client.post(
             "/admin/workspaces",
             data={"csrf_token": csrf_token, "name": "  Demo   Workspace  "},
+            follow_redirects=False,
         )
 
         assert response.status_code == 303

@@ -74,6 +74,7 @@ def test_workspace_rename_flow() -> None:
         response = client.post(
             "/admin/workspaces/workspace-1/rename",
             data={"csrf_token": csrf_token, "name": "Renamed"},
+            follow_redirects=False,
         )
 
         assert response.status_code == 303
