@@ -42,11 +42,14 @@ Rationale:
 - Provider scopes: email + profile only.
 - Admin routes guarded by dependency; deny by default.
 
+## Decisions
+- Use Postgres for user persistence from day one.
+- Use email allowlist for admin bootstrap.
+- Logout clears local session; provider token revocation only if we store refresh tokens.
+
 ## Open questions
-- What persistence should we use for users and sessions (SQLite vs Postgres)?
 - Should we require GitHub org membership for admin access?
 - Do we want a one-time bootstrap token instead of email allowlist?
-- Should logout revoke provider tokens or only clear local session?
 
 ## Implementation steps (next issue)
 - Add Authlib dependency and settings.
