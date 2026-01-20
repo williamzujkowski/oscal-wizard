@@ -7,6 +7,7 @@
   <div class="grid-container">
     <h1 class="usa-heading-l">Import workspace</h1>
     <form class="usa-form" method="post" action="/admin/workspaces/import" enctype="multipart/form-data">
+      <input type="hidden" name="csrf_token" value="{{ request.state.csrf_token }}" />
       <label class="usa-label" for="workspace-file">Workspace JSON</label>
       <input class="usa-file-input" id="workspace-file" name="workspace_file" type="file" accept="application/json" required />
       <button class="usa-button" type="submit">Import</button>

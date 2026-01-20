@@ -25,6 +25,7 @@
                 <a class="usa-nav__secondary-item" href="/admin">Admin</a>
               {% endif %}
               <form class="usa-nav__secondary-item" method="post" action="/auth/logout">
+                <input type="hidden" name="csrf_token" value="{{ request.state.csrf_token }}" />
                 <button class="usa-button usa-button--unstyled" type="submit">
                   Sign out
                 </button>

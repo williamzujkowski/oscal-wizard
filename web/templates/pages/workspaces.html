@@ -8,6 +8,7 @@
     <h1 class="usa-heading-l">Workspaces</h1>
     <p><a href="/admin/workspaces/import">Import workspace JSON</a></p>
     <form class="usa-form usa-form--large" method="post" action="/admin/workspaces">
+      <input type="hidden" name="csrf_token" value="{{ request.state.csrf_token }}" />
       <label class="usa-label" for="workspace-name">Workspace name</label>
       <input class="usa-input" id="workspace-name" name="name" type="text" required />
       <button class="usa-button" type="submit">Create workspace</button>

@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import secrets
+
 from fastapi import Depends, HTTPException, Request
 
 from engine.db import get_session
@@ -41,3 +43,17 @@ def require_admin(user=Depends(require_user)):
     if not user.is_admin:
         raise HTTPException(status_code=403, detail="Admin access required")
     return user
+
+
+def get_csrf_token(request: Request) -> str:
+    token = request.session.get("csrf_token")
+    if not token:
+        token = secrets.token_urlsafe(32)
+        request.session["csrf_token"] = token
+    return token
+
+
+def verify_csrf(request: Request, csrf_token: str) -> None:
+    expected = request.session.get("csrf_token")
+    if not expected or not secrets.compare_digest(expected, csrf_token):
+        raise HTTPException(status_code=400, detail="Invalid CSRF token")

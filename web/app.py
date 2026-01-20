@@ -15,7 +15,7 @@ from web.routes.health import router as health_router
 from web.routes.users import router as users_router
 from web.routes.workspaces import router as workspaces_router
 from web.settings import get_settings
-from web.security import load_user
+from web.security import get_csrf_token, load_user
 
 BASE_DIR = Path(__file__).resolve().parent
 TEMPLATES_DIR = BASE_DIR / "templates"
@@ -46,6 +46,7 @@ def create_app() -> FastAPI:
     @app.middleware("http")
     async def attach_user(request, call_next):
         request.state.user = await load_user(request)
+        request.state.csrf_token = get_csrf_token(request)
         return await call_next(request)
 
     app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
