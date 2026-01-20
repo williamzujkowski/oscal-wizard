@@ -51,6 +51,7 @@ Set these environment variables before running the app:
 - `GOOGLE_CLIENT_ID`
 - `GOOGLE_CLIENT_SECRET`
 - `ADMIN_ALLOWLIST` (comma-separated emails)
+- `ADMIN_ALLOWLIST_ENABLED` (true/false)
 
 Use `.env.example` as a starting point for local configuration.
 
