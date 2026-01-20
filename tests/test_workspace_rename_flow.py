@@ -13,6 +13,7 @@ class DummyWorkspace:
     id: str
     name: str
     system_id: str
+    owner_id: str | None
     data: dict
     created_at: datetime
     updated_at: datetime
@@ -45,6 +46,7 @@ def test_workspace_rename_flow() -> None:
             id=workspace_id,
             name="Example",
             system_id="abc",
+            owner_id=None,
             data={},
             created_at=datetime(2026, 1, 19, tzinfo=timezone.utc),
             updated_at=datetime(2026, 1, 19, tzinfo=timezone.utc),

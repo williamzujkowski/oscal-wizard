@@ -13,6 +13,7 @@ class DummyWorkspace:
     id: str
     name: str
     system_id: str
+    owner_id: str | None
     created_at: datetime
     updated_at: datetime
 
@@ -45,6 +46,7 @@ def test_workspaces_page_ordering() -> None:
                 id="new",
                 name="New",
                 system_id="new",
+                owner_id=None,
                 created_at=datetime(2026, 2, 1, tzinfo=timezone.utc),
                 updated_at=datetime(2026, 2, 1, tzinfo=timezone.utc),
             ),
@@ -52,6 +54,7 @@ def test_workspaces_page_ordering() -> None:
                 id="old",
                 name="Old",
                 system_id="old",
+                owner_id=None,
                 created_at=datetime(2026, 1, 1, tzinfo=timezone.utc),
                 updated_at=datetime(2026, 1, 1, tzinfo=timezone.utc),
             ),
