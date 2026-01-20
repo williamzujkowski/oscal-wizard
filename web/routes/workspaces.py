@@ -38,6 +38,8 @@ async def workspaces_create(
     name = " ".join(name.split())
     if not name:
         raise HTTPException(status_code=400, detail="Workspace name is required")
+    if len(name) > 200:
+        raise HTTPException(status_code=400, detail="Workspace name is too long")
     system_id = deterministic_id(name)
     workspace = Workspace(
         system_name=name,
@@ -112,6 +114,8 @@ async def workspaces_rename(
     name = " ".join(name.split())
     if not name:
         raise HTTPException(status_code=400, detail="Workspace name is required")
+    if len(name) > 200:
+        raise HTTPException(status_code=400, detail="Workspace name is too long")
     sessionmaker = request.app.state.sessionmaker
     async for session in get_session(sessionmaker):
         updated = await rename_workspace(session, workspace_id, name=name)
