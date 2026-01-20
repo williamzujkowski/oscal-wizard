@@ -28,3 +28,12 @@ def test_export_requires_admin() -> None:
     response = client.get("/export")
 
     assert response.status_code == 401
+
+
+def test_admin_users_requires_auth() -> None:
+    app = create_app()
+    client = TestClient(app)
+
+    response = client.get("/admin/users")
+
+    assert response.status_code == 401
