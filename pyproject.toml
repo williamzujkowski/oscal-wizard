@@ -17,7 +17,26 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=8.2.0"]
+dev = [
+  "mypy>=1.11.0",
+  "pytest>=8.2.0",
+  "ruff>=0.6.0",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+select = ["E", "F", "I"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["engine", "web"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_unused_configs = true
 
 [tool.uv]
 package = false

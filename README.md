@@ -57,3 +57,11 @@ Set these environment variables before running the app:
 ```bash
 alembic upgrade head
 ```
+
+## Quality checks
+
+```bash
+ruff check .
+mypy .
+pytest
+```
