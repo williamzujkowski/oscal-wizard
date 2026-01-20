@@ -20,7 +20,7 @@
         <tbody>
           {% for user in users %}
             <tr>
-              <td>{{ user.email }}</td>
+              <td><a href="/admin/users/{{ user.id }}">{{ user.email }}</a></td>
               <td>{{ user.display_name }}</td>
               <td>{{ user.provider }}</td>
               <td>{{ "Yes" if user.is_admin else "No" }}</td>
