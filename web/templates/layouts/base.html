@@ -30,8 +30,15 @@
                 </button>
               </form>
             {% else %}
-              <a class="usa-button" href="/auth/login/github">Sign in with GitHub</a>
-              <a class="usa-button usa-button--outline" href="/auth/login/google">Sign in with Google</a>
+              {% if settings.github_client_id %}
+                <a class="usa-button" href="/auth/login/github">Sign in with GitHub</a>
+              {% endif %}
+              {% if settings.google_client_id %}
+                <a class="usa-button usa-button--outline" href="/auth/login/google">Sign in with Google</a>
+              {% endif %}
+              {% if not settings.github_client_id and not settings.google_client_id %}
+                <span class="usa-nav__secondary-item">SSO not configured</span>
+              {% endif %}
             {% endif %}
           </div>
         </div>

@@ -29,6 +29,7 @@ def create_app() -> FastAPI:
     templates = Jinja2Templates(directory=str(TEMPLATES_DIR))
     app.state.templates = templates
     app.state.settings = settings
+    templates.env.globals["settings"] = settings
 
     app.state.engine = create_engine(settings)
     app.state.sessionmaker = create_sessionmaker(app.state.engine)
