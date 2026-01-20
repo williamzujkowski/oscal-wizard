@@ -36,6 +36,7 @@ class WorkspaceRecord(Base):
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
     name: Mapped[str] = mapped_column(String(200))
     system_id: Mapped[str] = mapped_column(String(64))
+    owner_id: Mapped[str | None] = mapped_column(String(36), nullable=True)
     data: Mapped[dict] = mapped_column(JSON)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),

@@ -13,6 +13,7 @@ class DummyWorkspace:
     id: str
     name: str
     system_id: str
+    owner_id: str | None
     data: dict
     created_at: datetime
     updated_at: datetime
@@ -45,6 +46,7 @@ def test_workspace_detail_page_renders() -> None:
             id=workspace_id,
             name="Example",
             system_id="abc123",
+            owner_id="user-1",
             data={"system_name": "Example", "system_id": "abc123"},
             created_at=datetime(2026, 1, 19, tzinfo=timezone.utc),
             updated_at=datetime(2026, 1, 19, tzinfo=timezone.utc),

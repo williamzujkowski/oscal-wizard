@@ -53,6 +53,7 @@ async def workspaces_create(
             name=name,
             system_id=system_id,
             data=workspace.to_export_payload(),
+            owner_id=user.id,
         )
 
     return RedirectResponse(url="/admin/workspaces", status_code=303)
@@ -201,6 +202,7 @@ async def workspaces_import(
             system_id=workspace.system_id,
             data=workspace.to_export_payload(),
             created_at=workspace.created_at,
+            owner_id=user.id,
         )
 
     return RedirectResponse(url="/admin/workspaces", status_code=303)
