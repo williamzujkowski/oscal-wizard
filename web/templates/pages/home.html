@@ -1,0 +1,31 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}OSCAL Wizard{% endblock %}
+
+{% block content %}
+<section class="usa-section">
+  <div class="grid-container">
+    <div class="grid-row grid-gap">
+      <div class="tablet:grid-col-8">
+        <h1 class="usa-heading-xl">Build deterministic OSCAL SSPs</h1>
+        <p class="usa-intro">
+          A lightweight, guided workflow for producing valid SSP exports.
+        </p>
+        <a class="usa-button" href="#">Start a new workspace</a>
+      </div>
+      <div class="tablet:grid-col-4">
+        <div class="usa-summary-box" role="region" aria-label="Project status">
+          <div class="usa-summary-box__body">
+            <h2 class="usa-summary-box__heading">Baseline status</h2>
+            <ul class="usa-list">
+              <li>Minimal FastAPI + Jinja skeleton</li>
+              <li>USWDS asset pipeline ready</li>
+              <li>SSO plan in progress</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
