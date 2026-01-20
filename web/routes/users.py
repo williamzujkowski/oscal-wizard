@@ -1,0 +1,21 @@
+from fastapi import APIRouter, Depends, Request
+from fastapi.responses import HTMLResponse
+
+from engine.db import get_session
+from engine.users import list_users
+from web.security import require_admin
+
+router = APIRouter(prefix="/admin/users")
+
+
+@router.get("", response_class=HTMLResponse)
+async def users_index(request: Request, user=Depends(require_admin)) -> HTMLResponse:
+    sessionmaker = request.app.state.sessionmaker
+    async for session in get_session(sessionmaker):
+        users = await list_users(session)
+
+    templates = request.app.state.templates
+    return templates.TemplateResponse(
+        "pages/users.html",
+        {"request": request, "user": user, "users": users},
+    )

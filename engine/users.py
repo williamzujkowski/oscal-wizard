@@ -22,6 +22,11 @@ async def has_admin(session: AsyncSession) -> bool:
     return result.first() is not None
 
 
+async def list_users(session: AsyncSession) -> list[User]:
+    result = await session.execute(select(User).order_by(User.created_at))
+    return list(result.scalars())
+
+
 async def upsert_user(
     session: AsyncSession,
     *,
