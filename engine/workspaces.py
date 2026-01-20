@@ -11,7 +11,7 @@ from engine.models import WorkspaceRecord
 
 async def list_workspaces(session: AsyncSession) -> list[WorkspaceRecord]:
     result = await session.execute(
-        select(WorkspaceRecord).order_by(WorkspaceRecord.created_at.desc())
+        select(WorkspaceRecord).order_by(WorkspaceRecord.updated_at.desc())
     )
     return list(result.scalars())
 
