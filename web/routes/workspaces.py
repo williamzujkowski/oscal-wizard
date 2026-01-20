@@ -108,7 +108,12 @@ async def workspaces_export(
 
     payload = {"workspace": record.data}
     data = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
-    return Response(data, media_type="application/json")
+    filename = f"workspace-{record.id}.json"
+    return Response(
+        data,
+        media_type="application/json",
+        headers={"Content-Disposition": f\"attachment; filename=\\\"{filename}\\\"\"},
+    )
 
 
 @router.get("/import", response_class=HTMLResponse)
