@@ -20,6 +20,7 @@
           <tr>
             <th scope="col">Name</th>
             <th scope="col">System ID</th>
+            <th scope="col">Owner ID</th>
             <th scope="col">Created</th>
             <th scope="col">Updated</th>
             <th scope="col">Actions</th>
@@ -30,6 +31,7 @@
             <tr>
               <td>{{ workspace.name }}</td>
               <td>{{ workspace.system_id }}</td>
+              <td>{{ workspace.owner_id or "Unassigned" }}</td>
               <td>{{ workspace.created_at.isoformat() }}</td>
               <td>{{ workspace.updated_at.isoformat() }}</td>
               <td>

@@ -46,7 +46,7 @@ def test_workspaces_page_renders() -> None:
                 id="workspace-1",
                 name="Example",
                 system_id="abc123",
-                owner_id=None,
+                owner_id="user-1",
                 created_at=datetime(2026, 1, 19, tzinfo=timezone.utc),
                 updated_at=datetime(2026, 1, 19, tzinfo=timezone.utc),
             )
@@ -61,5 +61,6 @@ def test_workspaces_page_renders() -> None:
 
         assert response.status_code == 200
         assert "Example" in response.text
+        assert "user-1" in response.text
     finally:
         workspaces_routes.list_workspaces = original_list
