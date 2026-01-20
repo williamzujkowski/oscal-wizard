@@ -11,6 +11,7 @@ from web.routes.home import router as home_router
 from web.routes.export import router as export_router
 from web.routes.admin import router as admin_router
 from web.routes.auth import router as auth_router
+from web.routes.workspaces import router as workspaces_router
 from web.settings import get_settings
 from web.security import load_user
 
@@ -49,5 +50,6 @@ def create_app() -> FastAPI:
     app.include_router(export_router)
     app.include_router(auth_router)
     app.include_router(admin_router)
+    app.include_router(workspaces_router)
 
     return app

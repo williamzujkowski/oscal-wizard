@@ -1,0 +1,33 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Workspaces - OSCAL Wizard{% endblock %}
+
+{% block content %}
+<section class="usa-section">
+  <div class="grid-container">
+    <h1 class="usa-heading-l">Workspaces</h1>
+    {% if workspaces %}
+      <table class="usa-table">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">System ID</th>
+            <th scope="col">Created</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for workspace in workspaces %}
+            <tr>
+              <td>{{ workspace.name }}</td>
+              <td>{{ workspace.system_id }}</td>
+              <td>{{ workspace.created_at.isoformat() }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="usa-intro">No workspaces yet.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}
