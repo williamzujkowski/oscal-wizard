@@ -12,6 +12,12 @@ source .venv/bin/activate
 uv sync
 ```
 
+Postgres (dev):
+
+```bash
+docker-compose up -d db
+```
+
 Node (USWDS assets):
 
 ```bash
