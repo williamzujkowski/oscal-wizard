@@ -30,7 +30,10 @@ def test_import_accepts_valid_payload() -> None:
     async def fake_list_workspaces(session):
         return []
 
-    async def fake_create_workspace_record(session, *, name, system_id, data):
+    captured = {}
+
+    async def fake_create_workspace_record(session, *, name, system_id, data, created_at=None):
+        captured["created_at"] = created_at
         return None
 
     original_list = workspaces_routes.list_workspaces
@@ -61,6 +64,7 @@ def test_import_accepts_valid_payload() -> None:
         )
 
         assert response.status_code == 303
+        assert captured["created_at"].isoformat() == "1970-01-01T00:00:00+00:00"
     finally:
         workspaces_routes.list_workspaces = original_list
         workspaces_routes.create_workspace_record = original_create

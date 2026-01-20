@@ -41,7 +41,7 @@ def test_import_rejects_missing_fields() -> None:
     app.state.sessionmaker = DummySessionMaker()
     app.dependency_overrides[require_admin] = lambda: DummyUser()
 
-    async def fake_create_workspace_record(session, *, name, system_id, data):
+    async def fake_create_workspace_record(session, *, name, system_id, data, created_at=None):
         return None
 
     original_create = workspaces_routes.create_workspace_record

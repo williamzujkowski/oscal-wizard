@@ -32,7 +32,7 @@ def test_create_normalizes_whitespace() -> None:
 
     captured = {}
 
-    async def fake_create_workspace_record(session, *, name, system_id, data):
+    async def fake_create_workspace_record(session, *, name, system_id, data, created_at=None):
         captured["name"] = name
         return None
 
