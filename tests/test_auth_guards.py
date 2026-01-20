@@ -46,3 +46,12 @@ def test_admin_workspaces_requires_auth() -> None:
     response = client.get("/admin/workspaces")
 
     assert response.status_code == 401
+
+
+def test_admin_user_detail_requires_auth() -> None:
+    app = create_app()
+    client = TestClient(app)
+
+    response = client.get("/admin/users/user-1")
+
+    assert response.status_code == 401
