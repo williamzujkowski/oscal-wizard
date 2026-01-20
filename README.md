@@ -45,3 +45,9 @@ Set these environment variables before running the app:
 - `GOOGLE_CLIENT_ID`
 - `GOOGLE_CLIENT_SECRET`
 - `ADMIN_ALLOWLIST` (comma-separated emails)
+
+## Database migrations
+
+```bash
+alembic upgrade head
+```
