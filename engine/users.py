@@ -23,7 +23,7 @@ async def has_admin(session: AsyncSession) -> bool:
 
 
 async def list_users(session: AsyncSession) -> list[User]:
-    result = await session.execute(select(User).order_by(User.created_at))
+    result = await session.execute(select(User).order_by(User.last_login_at.desc()))
     return list(result.scalars())
 
 
