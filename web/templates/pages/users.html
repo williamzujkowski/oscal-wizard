@@ -11,6 +11,7 @@
         <thead>
           <tr>
             <th scope="col">Email</th>
+            <th scope="col">Name</th>
             <th scope="col">Provider</th>
             <th scope="col">Admin</th>
             <th scope="col">Last Login</th>
@@ -20,6 +21,7 @@
           {% for user in users %}
             <tr>
               <td>{{ user.email }}</td>
+              <td>{{ user.display_name }}</td>
               <td>{{ user.provider }}</td>
               <td>{{ "Yes" if user.is_admin else "No" }}</td>
               <td>{{ user.last_login_at.isoformat() }}</td>
